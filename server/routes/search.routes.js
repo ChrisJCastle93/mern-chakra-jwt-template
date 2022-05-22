@@ -2,9 +2,6 @@ const router = require("express").Router();
 const fs = require("fs");
 const axios = require("axios");
 
-const results = require("../utils/results.json");
-const productResult = require("../utils/productDetailsResult.json");
-
 const redis = require("redis");
 const REDIS_PORT = process.env.REDIS_PORT || 6379;
 
@@ -56,7 +53,7 @@ router.get("/", cacheSearch, async (req, res) => {
     const params = {
       api_key: process.env.RAINFOREST,
       type: "search",
-      amazon_domain: "amazon.de",
+      amazon_domain: "amazon.com",
       search_term: amazonSearchQuery,
     };
 
@@ -82,7 +79,7 @@ router.get("/results/:id", cacheProduct, async (req, res, next) => {
     const params = {
       api_key: process.env.RAINFOREST,
       type: "product",
-      amazon_domain: "amazon.de",
+      amazon_domain: "amazon.com",
       asin: productToSearch,
     };
 

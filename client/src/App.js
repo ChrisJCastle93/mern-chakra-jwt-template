@@ -1,43 +1,41 @@
-
-import React from 'react'
+import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import Test from "./components/search/Microphone";
 import SearchContainer from "./components/search/SearchContainer";
 import SearchResults from "./views/SearchResults";
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, Flex, Box, Divider } from "@chakra-ui/react";
 import { useState } from "react";
 import { Signup } from "./views/auth/Signup";
 import { Login } from "./views/auth/Login";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import apiService from "./views/services/auth";
 import Cart from "./views/cart/Cart";
 import Profile from "./views/Profile";
-import ProductDetail from './components/ProductDetail';
-import Checkout from './views/checkout/Checkout';
+import ProductDetail from "./components/ProductDetail";
+import Checkout from "./views/checkout/Checkout";
 // import AuthButtonDisplay from "./components/AuthButtonDisplay";
 import { UpdateUserForm } from "./views/auth/UpdateUserForm";
-import Navbar from './components/Navbar1';
-import '../src/css/authForm.css';
-import Footer from './components/search/Footer';
-import Header from './components/search/Header';
-import { cartService } from './services/localStorage';
-
-
+import Navbar from "./components/Navbar1";
+import "../src/css/authForm.css";
+import { Footer } from "./components/footer/Footer";
+import Header from "./components/search/Header";
+import { cartService } from "./services/localStorage";
+import { NavbarOne } from "./components/navbar/NavbarOne";
 
 function App() {
   let [searchResultsArray, setSearchResultsArray] = useState([]);
   let [cameFromCheckout, setCameFromCheckout] = useState(false);
 
   const loginToCheckout = () => {
-    setCameFromCheckout(true)
-  }
+    setCameFromCheckout(true);
+  };
 
   const cart = cartService.getFromLocalStorage("cart");
 
-  if(!cart) {
-   const resetCart = [];
-   cartService.addToLocalStorage('cart', resetCart)
+  if (!cart) {
+    const resetCart = [];
+    cartService.addToLocalStorage("cart", resetCart);
   }
 
   const navigate = useNavigate();
@@ -57,7 +55,7 @@ function App() {
   const logoutHandler = async () => {
     await apiService.logout();
     setLoggedInUser(null);
-    navigate('/')
+    navigate("/");
   };
 
   const handleSearchResults = (searchResults) => {
@@ -65,46 +63,34 @@ function App() {
   };
 
   return (
-  
-
     <ChakraProvider>
-    {loading ? (
-      <div>Loading.....</div>
-    ) : (
+      {loading ? (
+        <div>Loading.....</div>
+      ) : (
         <div className="App">
-            <Header/>
-        <Navbar 
-            loggedInUser={loggedInUser}
-            logoutHandler={logoutHandler}
-            handleSearchResults={handleSearchResults}
-        />
-
-
-        {/* <Link to="/profile/edit">edit profile</Link>
-          <AuthButtonDisplay
-            loggedInUser={loggedInUser}
-            logoutHandler={logoutHandler}
-          /> */}
-          <Routes>
-            <Route path="/" element={<Home loggedInUser={loggedInUser} />} />
-            <Route path="/test" element={<Test />} />
-            <Route path="/cart" element={<Cart loggedInUser={loggedInUser} loginToCheckout={loginToCheckout} />} />
-            <Route path="/profile/edit" element={<UpdateUserForm loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser}/>} />
-            <Route path="/signup" element={<Signup setLoggedInUser={setLoggedInUser}/>} />
-            <Route path="/login" element={<Login cameFromCheckout={cameFromCheckout} setLoggedInUser={setLoggedInUser}/>} />
-            <Route path="/profile" element={<Profile loggedInUser={loggedInUser}/>} />
-            <Route path="/search" element={<SearchContainer handleSearchResults={handleSearchResults} />} />
-            <Route path="/search/results" element={<SearchResults searchResultsArray={searchResultsArray} />} />
-            <Route path="/search/results/:id/:price" element={<ProductDetail />} />
-            <Route path="/checkout/:id" element={<Checkout loggedInUser={loggedInUser} />} />
-          </Routes>
-         
-
-          <Footer/>
+          <Flex minH="100vh" direction="column">
+            <NavbarOne loggedInUser={loggedInUser} logoutHandler={logoutHandler} handleSearchResults={handleSearchResults} cart={cart} />
+            <Box flexGrow="1">
+              <Routes>
+                <Route path="/" element={<Home loggedInUser={loggedInUser} />} />
+                <Route path="/test" element={<Test />} />
+                <Route path="/cart" element={<Cart loggedInUser={loggedInUser} loginToCheckout={loginToCheckout} />} />
+                <Route path="/profile/edit" element={<UpdateUserForm loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />} />
+                <Route path="/signup" element={<Signup setLoggedInUser={setLoggedInUser} />} />
+                <Route path="/login" element={<Login cameFromCheckout={cameFromCheckout} setLoggedInUser={setLoggedInUser} />} />
+                <Route path="/profile" element={<Profile loggedInUser={loggedInUser} />} />
+                <Route path="/search" element={<SearchContainer handleSearchResults={handleSearchResults} />} />
+                <Route path="/search/results" element={<SearchResults searchResultsArray={searchResultsArray} />} />
+                <Route path="/search/results/:id/:price" element={<ProductDetail />} />
+                <Route path="/checkout/:id" element={<Checkout loggedInUser={loggedInUser} />} />
+              </Routes>
+            </Box>
+            <Divider mt="40px" />
+            <Footer />
+          </Flex>
         </div>
-        )}
+      )}
     </ChakraProvider>
-
   );
 }
 export default App;
