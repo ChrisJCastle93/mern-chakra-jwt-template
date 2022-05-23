@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import "../css/PromoContainer.css";
 import { Box, Image, Badge, Flex, Heading, Divider, Grid, GridItem } from "@chakra-ui/react";
@@ -24,10 +24,10 @@ export default function PromoContainer(props) {
         {props.header}
       </Heading>
       <Grid templateColumns="repeat(4, 1fr)" w="90%" mx="auto">
-        {listOfPromo.map((x) => {
+        {listOfPromo.map((x, index) => {
           return (
-            <GridItem>
-              <Link key={x.link} to={`/search/results/${x.asin}/${x.price.value}`}>
+            <GridItem key={index}>
+              <Link to={`/search/results/${x.asin}/${x.price.value}`}>
                 <Box bg="white" m={2} borderWidth="1px" borderRadius="lg" overflow="hidden">
                   <Image mx="auto" p="20px" h="200px" objectFit="contain" src={x.image} />
                   <Box p="6">

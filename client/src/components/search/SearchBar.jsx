@@ -1,5 +1,6 @@
 import React from "react";
-import { Input } from "@chakra-ui/react";
+import { Icon, Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
+import { RiSearchLine } from "react-icons/ri";
 
 export default function SearchBar(props) {
   const handleChange = (e) => {
@@ -8,10 +9,13 @@ export default function SearchBar(props) {
   };
 
   return (
-    <div >
-      <form onSubmit={(e) => props.handleSubmit(e)}>
-        <Input htmlSize={24} width="auto" variant="outline" type="text" className="" name="text" placeholder="Search" value={props.searchTerm} onChange={(e) => handleChange(e)} />
-      </form>
-    </div>
+    <form onSubmit={(e) => props.handleSubmit(e)}>
+      <InputGroup>
+        <InputLeftElement>
+          <Icon as={RiSearchLine} color="gray.500" fontSize="lg" />
+        </InputLeftElement>
+        <Input borderRightRadius="0" focusBorderColor="blue.500" width="full" fontSize="sm" variant="filled" type="text" placeholder="What are you looking for? Use the microphone to search by voice." autoComplete="off" value={props.searchTerm} onChange={(e) => handleChange(e)} />
+      </InputGroup>
+    </form>
   );
 }

@@ -1,4 +1,4 @@
-import { ChakraComponent, Image } from "@chakra-ui/react";
+import { Image } from "@chakra-ui/react";
 import askbg from "../../assets/askbg.png";
 
 

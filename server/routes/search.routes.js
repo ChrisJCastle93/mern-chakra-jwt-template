@@ -50,6 +50,13 @@ router.get("/", cacheSearch, async (req, res) => {
 
     const amazonSearchQuery = req.query.q.replaceAll("+", " ");
 
+    console.log('AMAZON SEARCH QUERY', amazonSearchQuery)
+
+    if(amazonSearchQuery.length == 0) {
+      console.log('NOTHING IN SEARCH PARAMS')
+      res.json('NOTHING')
+    }
+
     const params = {
       api_key: process.env.RAINFOREST,
       type: "search",
@@ -63,7 +70,7 @@ router.get("/", cacheSearch, async (req, res) => {
     const filteredData = searchResults.filter((item) => !!item.prices);
     res.json(filteredData);
   } catch (err) {
-    console.log(err);
+    console.log('ERROR IN SEARCH ROUTE');
   }
 });
 

@@ -1,4 +1,4 @@
-import { Center, HStack,Box } from "@chakra-ui/react";
+import { Center, HStack, Box, Flex } from "@chakra-ui/react";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
@@ -32,7 +32,7 @@ export default function SearchContainer(props) {
     const queryString = new URLSearchParams({ q: searchTerm }).toString();
     const searchResults = await axios.get(`${process.env.REACT_APP_API_URL}/api/search?${queryString}`);
     props.handleSearchResults(searchResults);
-    console.log(queryString)
+    console.log(queryString);
     navigate(`/search/results?q=${searchTerm}`);
   };
 
@@ -41,13 +41,11 @@ export default function SearchContainer(props) {
   };
 
   return (
-    <Box  display="flex">
-      {/* <Center>
-        <HStack mt={10}> */}
-          <SearchBar searchTerm={searchTerm} searchHandler={searchHandler} handleSubmit={handleSubmit}  />
-          <Microphone searchHandler={searchHandler} handleSubmit={handleSubmit} updateSpeechDone={updateSpeechDone} />
-        {/* </HStack>
-      </Center> */}
-    </Box>
+    <Flex>
+      <Box flex="1">
+        <SearchBar searchTerm={searchTerm} searchHandler={searchHandler} handleSubmit={handleSubmit} />
+      </Box>
+      <Microphone searchHandler={searchHandler} handleSubmit={handleSubmit} updateSpeechDone={updateSpeechDone} />
+    </Flex>
   );
 }

@@ -1,6 +1,6 @@
-import { Box, Center, Flex, HStack, useColorModeValue as mode, VisuallyHidden } from "@chakra-ui/react";
+import { Box, Center, Flex, HStack, Text, useColorModeValue as mode, VisuallyHidden } from "@chakra-ui/react";
 import * as React from "react";
-import { AiOutlineUser } from "react-icons/ai";
+import { AiOutlineUser, AiOutlineLogout } from "react-icons/ai";
 import { MdMenu } from "react-icons/md";
 import { RiHeartLine, RiShoppingCartLine } from "react-icons/ri";
 import { CurrencySelect } from "./CurrencySelect";
@@ -13,6 +13,8 @@ import { NavCategorySubmenu } from "./NavCategorySubmenu";
 import { SearchInput } from "./SearchInput";
 import { Link } from "react-router-dom";
 import { cartService } from "../../services/localStorage";
+// import SearchContainer from "../search1/SearchContainer"
+import SearchContainer from "../search/SearchContainer";
 
 export const NavbarOne = (props) => {
   const { loggedInUser } = props;
@@ -30,7 +32,6 @@ export const NavbarOne = (props) => {
       >
         <Box px="4" py="4" borderBottomWidth="1px" overflow="auto">
           <Flex
-            bg="yellow"
             align="center"
             justify="space-between"
             mb="3"
@@ -46,22 +47,13 @@ export const NavbarOne = (props) => {
               </Center>
               <Logo />
             </HStack>
-            {/* <Box>
-            <CurrencySelect />
-          </Box> */}
           </Flex>
-          <SearchInput />
+          {/* <SearchInput /> */}
         </Box>
-
-        {/* <Flex flex="1" fontSize="sm" overflow="auto">
-        <NavCategoryMenu.Mobile />
-        <NavCategorySubmenu.Mobile />
-      </Flex>
-      <MobileBottomNav /> */}
+        {/* <SearchContainer handleSearchResults={props.handleSearchResults} /> */}
       </Flex>
 
       <Box
-        // minH="100vh"
         display={{
           base: "none",
           lg: "block",
@@ -72,16 +64,17 @@ export const NavbarOne = (props) => {
             <Link to="/">
               <Logo />
             </Link>
-            <Box width="full" px="8">
-              <SearchInput />
+            <Box width="full" px="64">
+              <SearchContainer handleSearchResults={props.handleSearchResults} />
+              {/* <SearchInput handleSearchResults={props.handleSearchResults} /> */}
             </Box>
             <HStack spacing="8" flexShrink={0}>
               {/* <NavAction.Desktop label="Wishlist" href="" icon={RiHeartLine} /> */}
               {loggedInUser ? (
-                <Link to="/logout">
-                  <NavAction.Desktop label="Sign in" icon={AiOutlineUser} />
-                </Link>
+                // <Text>
+                <NavAction.Desktop label="Logout" {...props} icon={AiOutlineLogout} />
               ) : (
+                // </Text>
                 <Link to="/login">
                   <NavAction.Desktop label="Sign in" icon={AiOutlineUser} />
                 </Link>

@@ -14,12 +14,9 @@ import Cart from "./views/cart/Cart";
 import Profile from "./views/Profile";
 import ProductDetail from "./components/ProductDetail";
 import Checkout from "./views/checkout/Checkout";
-// import AuthButtonDisplay from "./components/AuthButtonDisplay";
 import { UpdateUserForm } from "./views/auth/UpdateUserForm";
-import Navbar from "./components/Navbar1";
 import "../src/css/authForm.css";
 import { Footer } from "./components/footer/Footer";
-import Header from "./components/search/Header";
 import { cartService } from "./services/localStorage";
 import { NavbarOne } from "./components/navbar/NavbarOne";
 

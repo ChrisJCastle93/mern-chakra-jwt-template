@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { speechToTextService } from "../../services/speechToText";
 import { MicrophoneIcon, StopIcon } from "@heroicons/react/solid";
-import { IconButton, Spinner } from "@chakra-ui/react";
+import { IconButton, Spinner, Flex } from "@chakra-ui/react";
 
 export default function Microphone(props) {
   let [micButtonDisplay, setMicButtonDisplay] = useState("block");
@@ -26,6 +26,7 @@ export default function Microphone(props) {
     });
 
     mediaRecorder.addEventListener("stop", () => {
+      console.log("STOPPED MEDIA RECORDING");
       stream.getTracks().forEach(function (track) {
         track.stop();
       });
@@ -34,6 +35,7 @@ export default function Microphone(props) {
     });
 
     stopButton.addEventListener("click", () => {
+      console.log("CLICKED STOP BUTTON");
       mediaRecorder.stop();
       setStopButtonDisplay("none");
       setSpinnerDisplay("block");
@@ -56,12 +58,14 @@ export default function Microphone(props) {
   };
 
   return (
-    <div>
+    <Flex justifyContent="center" alignItems="center" bg="#EDF2F6" borderRightRadius="md">
       <form onSubmit={props.handleSubmit}>
-        <IconButton p={2} icon={<StopIcon />} display={stopButtonDisplay} type="submit" id="stop"></IconButton>
+        <IconButton borderLeftRadius="0" p={2} icon={<StopIcon />} display={stopButtonDisplay} id="stop"></IconButton>
       </form>
-      <Spinner display={spinnerDisplay} />
-      <IconButton p={2} icon={<MicrophoneIcon />} display={micButtonDisplay} onClick={(e) => recordMicrophone(e)}></IconButton>
-    </div>
+
+      <Spinner thickness="2px" speed="1s" color="blue.500" display={spinnerDisplay} m={2} p={2} />
+
+      <IconButton borderLeftRadius="0" p={2} icon={<MicrophoneIcon />} display={micButtonDisplay} onClick={(e) => recordMicrophone(e)}></IconButton>
+    </Flex>
   );
 }
