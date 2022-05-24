@@ -15,7 +15,7 @@ export const PriceTag = (props) => {
   const { price, currency, rootProps, priceProps } = props;
   return (
     <HStack spacing="1" {...rootProps}>
-      <Price textProps={priceProps}>
+      <Price size="md" textProps={priceProps}>
         {formatPrice(price, {
           currency,
         })}
@@ -27,7 +27,7 @@ export const PriceTag = (props) => {
 const Price = (props) => {
   const { children, textProps } = props;
   return (
-    <Text as="span" fontWeight="medium" color="gray.700" {...textProps} >
+    <Text as="span" fontWeight="bold" color="gray.700" {...textProps} >
       {children}
     </Text>
   );
