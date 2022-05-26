@@ -11,28 +11,13 @@ import { blueFilters, breadcrumbData, colorFilter, genderFilter, sizeFilter } fr
 
 export const Filters = (props) => {
 
-  // const { filteredSearchResultsArray } = props;
-  const { minPriceFilter, maxPriceFilter } = props;
-
-  // console.log(minPriceFilter, 'min', maxPriceFilter, 'max in filter component')
-
-  // const highestPrice = filteredSearchResultsArray.sort((a, b) => {
-  //   return b.price.value - a.price.value;
-  // })[0].price.value;
-
-  // const lowestPrice = filteredSearchResultsArray.sort((a, b) => {
-  //     return a.price.value - b.price.value;
-  // })[0].price.value;
-
-  // let [minPrice, setMinPrice] = React.useState(lowestPrice)
-  // let [maxPrice, setMaxPrice] = React.useState(highestPrice)
+  const { minPriceFilter, maxPriceFilter, maxPriceFilterInitialValue, products, minPriceFilterInitialValue } = props;
 
   const updatePriceFilter = (filter, value) => {
+
     if(filter == 'min') {
-      // setMinPrice(value)
       props.filterByPrice(1, Number(value));
     } else if (filter == 'max') {
-      // setMaxPrice(value)
       props.filterByPrice(0, Number(value));
     }
   }
@@ -73,13 +58,13 @@ export const Filters = (props) => {
               md: "flex",
             }}
           >
-            {/* <CheckboxFilter spacing="3" options={genderFilter.options} label="Gender" /> */}
+            {/* <CheckboxFilter spacing="3" options={products} label="Brands" /> */}
             {/* <SizePicker {...sizeFilter} label="Size" /> */}
             {/* <ColorPicker {...colorFilter} label="Color" /> */}
             {/* <CheckboxFilter spacing="3" options={blueFilters.options} label="Brand" showSearch /> */}
             <Stack spacing="5">
               <label>Price range</label>
-              <PriceRangePicker minPriceFilter={minPriceFilter} maxPriceFilter={maxPriceFilter} />
+              <PriceRangePicker minPriceFilter={minPriceFilter} maxPriceFilter={maxPriceFilter} updatePriceFilter={updatePriceFilter} maxPriceFilterInitialValue={maxPriceFilterInitialValue} minPriceFilterInitialValue={minPriceFilterInitialValue} />
               {/* <PriceRangePicker defaultValue={[minPriceFilter, maxPriceFilter]} /> */}
               <HStack spacing="6">
                 <Input type="number" onChange={(e) => updatePriceFilter("min", e.target.value)} value={minPriceFilter} placeholder="$500" />

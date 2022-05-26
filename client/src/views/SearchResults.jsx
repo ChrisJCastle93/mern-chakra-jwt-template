@@ -9,52 +9,81 @@ export default function SearchResults(props) {
   let [searchTerm, setSearchTerm] = React.useState("");
   let [minPriceFilter, setMinPriceFilter] = React.useState(0);
   let [maxPriceFilter, setMaxPriceFilter] = React.useState(0);
+  let [maxPriceFilterInitialValue, setMaxPriceFilterInitialValue] = React.useState(0);
+  let [minPriceFilterInitialValue, setMinPriceFilterInitialValue] = React.useState(0);
+  let [brandFilter, setBrandFilter] = React.useState([]);
+
+  console.log(minPriceFilter, maxPriceFilter, "MIN AND MAX FILTERS");
+
+  const products = props.searchResultsArray;
+
+  const filteredSearchResultsArray = props.searchResultsArray.filter((product) => {
+    console.log(product.price.value, "PRODUCT PRICE");
+    return product.price.value > minPriceFilter && product.price.value < maxPriceFilter;
+  });
+
+  const filterByPrice = (min, value) => {
+    if (!min) {
+      setMaxPriceFilter(value);
+    } else {
+      setMinPriceFilter(value);
+    }
+  };
+
+  const addToBrandFilter = (brand) => {
+    const newFilter = [...brandFilter, brand];
+    setBrandFilter(newFilter)
+  }
+
+  const removeFromBrandFilter = (brand) => {
+    const oldFilter = [...brandFilter];
+    const newFilter = oldFilter.filter(brandInFilter => brand !== brandInFilter)
+    setBrandFilter(newFilter)
+  }
 
   React.useEffect(() => {
     const params = new URLSearchParams(window.location.search); // id=123
     let q = params.get("q"); // 123
     const sanitizedQuery = q.replaceAll("+", " ");
+
     setSearchTerm(sanitizedQuery);
-  }, []);
 
-  const products = props.searchResultsArray;
-  const filteredSearchResultsArray = props.searchResultsArray.filter((product) => product.rating > 4 && product.price.value > 20);
+    const filteredSearchResultsArray = props.searchResultsArray.filter((product) => {
+      console.log(product.price.value, "PRODUCT PRICE");
+      return product.price.value > minPriceFilter && product.price.value < maxPriceFilter;
+    });
 
-  const filterByPrice = (min, value) => {
-    if (!min) {
-      console.log("setting max price");
-      setMaxPriceFilter(value);
-    } else {
-      console.log("setting min price");
-      setMinPriceFilter(value);
-    }
-  };
-
-  React.useEffect(() => {
     if (products.length > 0) {
-      console.log('TRIGGERED')
-      console.log(products.length)
       setMaxPriceFilter(
-        filteredSearchResultsArray.sort((a, b) => {
+        products.sort((a, b) => {
+          return b.price.value - a.price.value;
+        })[0].price.value
+      );
+
+      setMaxPriceFilterInitialValue(
+        products.sort((a, b) => {
           return b.price.value - a.price.value;
         })[0].price.value
       );
 
       setMinPriceFilter(
-        filteredSearchResultsArray.sort((a, b) => {
+        products.sort((a, b) => {
+          return a.price.value - b.price.value;
+        })[0].price.value
+      );
+
+      setMinPriceFilterInitialValue(
+        products.sort((a, b) => {
           return a.price.value - b.price.value;
         })[0].price.value
       );
     }
-  }, [products, filteredSearchResultsArray]);
-
-
-  console.log(minPriceFilter, 'min', maxPriceFilter, 'max')
+  }, []);
 
   return (
     <Grid templateColumns="repeat(4, 1fr)" gap={6}>
       <GridItem colSpan={1} borderRight="1px" borderColor="gray.200">
-        <Filters filterByPrice={filterByPrice} minPriceFilter={minPriceFilter} maxPriceFilter={maxPriceFilter} filteredSearchResultsArray={filteredSearchResultsArray} />
+        <Filters filterByPrice={filterByPrice} minPriceFilter={minPriceFilter} maxPriceFilter={maxPriceFilter} filteredSearchResultsArray={filteredSearchResultsArray} maxPriceFilterInitialValue={maxPriceFilterInitialValue} minPriceFilterInitialValue={minPriceFilterInitialValue} addToBrandFilter={addToBrandFilter} removeFromBrandFilter={removeFromBrandFilter} products={products} />
       </GridItem>
       <GridItem
         colSpan={3}

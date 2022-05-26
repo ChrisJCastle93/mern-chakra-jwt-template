@@ -14,6 +14,9 @@ import { FiSearch } from 'react-icons/fi'
 
 export const CheckboxFilter = (props) => {
   const { options, label, hideLabel, spacing = '2', showSearch, ...rest } = props
+
+  console.log(options)
+  
   return (
     <Stack as="fieldset" spacing={spacing}>
       {!hideLabel && (
@@ -21,7 +24,7 @@ export const CheckboxFilter = (props) => {
           {label}
         </FormLabel>
       )}
-      {showSearch && (
+      {/* {showSearch && (
         <InputGroup size="md" pb="1">
           <Input
             placeholder="Search..."
@@ -32,10 +35,10 @@ export const CheckboxFilter = (props) => {
             <FiSearch />
           </InputRightElement>
         </InputGroup>
-      )}
+      )} */}
       <CheckboxGroup {...rest}>
-        {options.map((option) => (
-          <Checkbox key={option.value} value={option.value} colorScheme="blue">
+        {options.map((option, index) => (
+          <Checkbox key={option.index} value={option.brand} colorScheme="blue">
             <span>{option.label}</span>
             {option.count != null && (
               <Box as="span" color="gray.500" fontSize="sm">
