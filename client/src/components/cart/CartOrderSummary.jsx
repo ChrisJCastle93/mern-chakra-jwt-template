@@ -36,11 +36,11 @@ export const CartOrderSummary = (props) => {
       </Stack>
       {/* <Text> Logged in User is: {loggedInUser._id} </Text> */}
       {loggedInUser ? (
-        <Button onClick={(e) => props.handleSubmit(e, loggedInUser._id)} colorScheme="blue" size="lg" fontSize="md" rightIcon={<FaArrowRight />}>
+        <Button onClick={(e) => props.handleSubmit(e, loggedInUser._id)} colorScheme="teal" size="lg" fontSize="md" rightIcon={<FaArrowRight />}>
           Checkout
         </Button>
       ) : (
-        <Button onClick={loginRedirect} colorScheme="blue" size="lg" fontSize="md" rightIcon={<FaArrowRight />}>
+        <Button onClick={loginRedirect} colorScheme="teal" size="lg" fontSize="md" rightIcon={<FaArrowRight />}>
           Login to Checkout
         </Button>
       )}

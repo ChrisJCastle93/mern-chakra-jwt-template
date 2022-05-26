@@ -6,7 +6,7 @@ import { IconButton, Spinner, Flex } from "@chakra-ui/react";
 export default function Microphone(props) {
   let [micButtonDisplay, setMicButtonDisplay] = useState("block");
   let [stopButtonDisplay, setStopButtonDisplay] = useState("none");
-  let [spinnerDisplay, setSpinnerDisplay] = useState("none");
+  // let [spinnerDisplay, setSpinnerDisplay] = useState("none");
 
   const recordMicrophone = async (e) => {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
@@ -38,7 +38,8 @@ export default function Microphone(props) {
       console.log("CLICKED STOP BUTTON");
       mediaRecorder.stop();
       setStopButtonDisplay("none");
-      setSpinnerDisplay("block");
+      // setSpinnerDisplay("block");
+      props.setIsLoading(true)
     });
 
     mediaRecorder.start();
@@ -49,7 +50,8 @@ export default function Microphone(props) {
     formData.append("file", file);
 
     const result = await speechToTextService.createNewSearch(formData);
-    setSpinnerDisplay("none");
+    // setSpinnerDisplay("none");
+    props.setIsLoading(false);
     setMicButtonDisplay("block");
 
     const sanitizedResult = result.data.replaceAll('"', "");
@@ -63,7 +65,7 @@ export default function Microphone(props) {
         <IconButton borderLeftRadius="0" p={2} icon={<StopIcon />} display={stopButtonDisplay} id="stop"></IconButton>
       </form>
 
-      <Spinner thickness="2px" speed="1s" color="blue.500" display={spinnerDisplay} m={2} p={2} />
+      {/* <Spinner thickness="2px" speed="1s" color="blue.500" display={spinnerDisplay} m={2} p={2} /> */}
 
       <IconButton borderLeftRadius="0" p={2} icon={<MicrophoneIcon />} display={micButtonDisplay} onClick={(e) => recordMicrophone(e)}></IconButton>
     </Flex>

@@ -6,6 +6,7 @@ import { cartService } from "../services/localStorage.js";
 import { Box, chakra, Container, Stack, Text, Image, Flex, VStack, Button, Heading, SimpleGrid, StackDivider, Spinner, useColorModeValue, VisuallyHidden, UnorderedList, List, ListItem } from "@chakra-ui/react";
 import { FaInstagram, FaTwitter, FaYoutube, FaHeart } from "react-icons/fa";
 import { MdLocalShipping } from "react-icons/md";
+import { Promos } from "../components/productdetails/Promos";
 
 function ProductDetail() {
   const [product, setProduct] = useState([]);
@@ -45,16 +46,16 @@ function ProductDetail() {
     newCart.map((item) => {
       if (item.id == cartProduct.id) {
         console.log("PRODUCT ALREADY IN CART");
-        console.log('INCREASING QTY')
+        console.log("INCREASING QTY");
         item.quantity++;
-        console.log(item.quantity)
+        console.log(item.quantity);
         cartService.addToLocalStorage("cart", newCart);
         cartUpdated = true;
       }
     });
 
     if (!cartUpdated) {
-      console.log('LOOKS LIKE A NEW PRODUCT, ADDING TO CART')
+      console.log("LOOKS LIKE A NEW PRODUCT, ADDING TO CART");
       newCart.push(cartProduct);
       cartService.addToLocalStorage("cart", newCart);
     }
@@ -107,14 +108,19 @@ function ProductDetail() {
       .catch((err) => console.log(err));
   }, [productId]);
 
-console.log(product)
+  console.log(product);
 
   return (
     <Container maxW={"7xl"}>
       {isLoading ? (
-        <Spinner />
+        <Flex justify="center" direction="column" height="60vh" align="center">
+          <Spinner thickness="4px" speed="0.65s" emptyColor="gray.200" color="teal" size="xl" />
+          <Text color="gray.200" fontSize={"lg"} fontWeight={"300"} my={4}>
+            Calling Amazon API
+          </Text>
+        </Flex>
       ) : (
-        <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={{ base: 8, md: 10 }} py={{ base: 18, md: 24 }}>
+        <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={{ base: 8, md: 10 }} py={{ base: 6, md: 12 }}>
           <Flex>
             <Image rounded={"md"} alt={"product image"} src={product.main_image.link} fit={"cover"} align={"center"} w={"100%"} h={{ base: "100%", sm: "400px", lg: "500px" }} />
           </Flex>
@@ -123,22 +129,15 @@ console.log(product)
               <Heading lineHeight={1.1} fontWeight={600} fontSize={{ base: "xl", sm: "2xl", lg: "3xl" }}>
                 {product.title}
               </Heading>
-              {/* {product.variants[0].price ? (
-                <Text color="gray.900" fontWeight={300} fontSize={"2xl"}>
-                {product.variants[0].price.value} {product.variants[0].price.symbol}
-                </Text>
-                ) : (
-                  <p>{priceParam}</p>
-                )} */}
-                <Text color="gray.900" fontWeight={300} fontSize={"2xl"}>
-                  € {priceParam}
-                </Text>
+              <Text color="gray.900" fontWeight={800} my={8} fontSize={"3xl"}>
+                {priceParam} $
+              </Text>
             </Box>
 
-            <Stack spacing={{ base: 4, sm: 6 }} direction={"column"} divider={<StackDivider color="gray.500" />}>
-              <VStack spacing={{ base: 4, sm: 6 }}>
+            <Stack direction={"column"}>
+              <VStack>
                 {product.description ? (
-                  <Text color="gray.500" fontSize={"2xl"} fontWeight={"300"}>
+                  <Text color="gray.500" fontSize={"xl"} fontWeight={"300"}>
                     {product.description}
                   </Text>
                 ) : (
@@ -146,14 +145,18 @@ console.log(product)
                 )}
               </VStack>
               <Box>
-                <Text fontSize={{ base: "16px", lg: "18px" }} color="yellow.500" fontWeight={"500"} textTransform={"uppercase"} mb={"4"}>
+                <Text fontSize={{ base: "16px", lg: "18px" }} color="teal" fontWeight={"500"} my={"8"}>
                   Features
                 </Text>
 
-                <SimpleGrid columns={{ base: 1, md: 1 }} spacing={10}>
+                <SimpleGrid mb={4} columns={{ base: 1, md: 1 }} spacing={10}>
                   <UnorderedList spacing={2}>
                     {product.feature_bullets.map((feature, index) => {
-                      return <ListItem key={index}>{feature}</ListItem>;
+                      return (
+                        <ListItem color="gray.500" fontWeight={"300"} key={index}>
+                          {feature}
+                        </ListItem>
+                      );
                     })}
                   </UnorderedList>
                 </SimpleGrid>
@@ -167,8 +170,9 @@ console.log(product)
               mt={8}
               size={"lg"}
               py={"7"}
-              bg="gray.900"
-              color="white"
+              // bg="gray.900"
+              // bg="teal"
+              colorScheme="teal"
               textTransform={"uppercase"}
               _hover={{
                 transform: "translateY(2px)",
@@ -201,7 +205,7 @@ console.log(product)
                 rounded={"lg"}
                 w={"full"}
                 mt={0}
-                size={"lg"}
+                size={"md"}
                 py={"7"}
                 bg="gray.100"
                 color="gray.500"
@@ -211,14 +215,15 @@ console.log(product)
                   boxShadow: "lg",
                 }}
               >
-                <FaHeart size={24} style={{ margin: "10px", fill: "gray" }} /> Add to WishList
+                <FaHeart size={16} style={{ margin: "10px", fill: "gray" }} /> Add to WishList
               </Button>
             )}
-            <Button onClick={() => resetCart()}>Reset Cart </Button>
-            <Stack direction="row" alignItems="center" justifyContent={"center"}>
+            <Promos />
+            {/* <Button onClick={() => resetCart()}>Reset Cart </Button> */}
+            {/* <Stack direction="row" alignItems="center" justifyContent={"center"}>
               <MdLocalShipping />
               <Text>2-3 business days delivery</Text>
-            </Stack>
+            </Stack> */}
           </Stack>
         </SimpleGrid>
       )}
