@@ -112,7 +112,7 @@ export default function Cart(props) {
             <HStack mt="6" fontWeight="semibold">
               <Text>or</Text>
               <Link to="/">
-                <Text color="blue.500">Continue Shopping</Text>
+                <Text color="teal">Continue Shopping</Text>
               </Link>
             </HStack>
           </Flex>

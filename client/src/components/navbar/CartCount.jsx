@@ -9,7 +9,7 @@ export const CartCount = (props) => (
     position="absolute"
     top="-2"
     right="-4"
-    bg={mode('blue.500', 'blue.300')}
+    bg="teal"
     color={mode('white', 'gray.800')}
     width="5"
     height="5"
