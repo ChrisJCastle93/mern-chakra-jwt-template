@@ -12,16 +12,14 @@ const Message = ({ message }) => (
 export default function Checkout(props) {
 
   const { loggedInUser } = props
-
   const [message, setMessage] = useState("");
-
   let { id } = useParams();
 
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
 
     if (query.get("success")) {
-      axios.post(`${process.env.REACT_APP_API_URL}/api/order/${id}/paid`);
+      // axios.post(`${process.env.REACT_APP_API_URL}/api/order/${id}/paid`);
       setMessage(`Order ${id} placed! You will receive an email confirmation.`);
     }
 

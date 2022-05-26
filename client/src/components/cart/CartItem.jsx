@@ -1,25 +1,13 @@
-import {
-  CloseButton,
-  Button,
-  Link,
-  Flex,
-  Select,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { CloseButton, Button, Link, Flex, Select, useColorModeValue } from "@chakra-ui/react";
 import * as React from "react";
 import { cartService } from "../../services/localStorage";
 import { PriceTag } from "./PriceTag";
 import { CartProductMeta } from "./CartProductMeta";
-
+import { useNavigate } from "react-router-dom";
 
 const QuantitySelect = (props) => {
   return (
-    <Select
-      maxW="64px"
-      aria-label="Select quantity"
-      focusBorderColor={useColorModeValue("blue.500", "blue.200")}
-      {...props}
-    >
+    <Select maxW="64px" aria-label="Select quantity" focusBorderColor={useColorModeValue("blue.500", "blue.200")} {...props}>
       <option value="1">1</option>
       <option value="2">2</option>
       <option value="3">3</option>
@@ -29,21 +17,9 @@ const QuantitySelect = (props) => {
 };
 
 export const CartItem = (props) => {
-  
-  const {
-    name,
-    description,
-    quantity,
-    image,
-    currency,
-    price,
-    onChangeQuantity,
-    onClickDelete,
-    id,
-    isWishList,
-    isCart
-  } = props;
+  const navigate = useNavigate();
 
+  const { name, description, quantity, image, currency, price, onChangeQuantity, onClickDelete, id, isWishList, isCart } = props;
 
   const addToCart = (product) => {
     const cart = cartService.getFromLocalStorage("cart");
@@ -51,18 +27,40 @@ export const CartItem = (props) => {
     let newCart = [...cart];
 
     const cartProduct = {
-      id: product.asin,
-      name: product.title,
-      price: product.variants[0].price.value,
-      image: product.variants[0].main_image,
-      quantity: 1,
+      id,
+      name,
+      price,
+      image,
+      quantity,
     };
 
-    newCart.push(cartProduct);
+    let cartUpdated;
 
-    cartService.addToLocalStorage("cart", newCart);
+    newCart.map((item) => {
+      if (item.id == cartProduct.id) {
+        console.log("PRODUCT ALREADY IN CART");
+        // console.log("INCREASING QTY");
+        // item.quantity++;
+        // console.log(item.quantity);
+        // cartService.addToLocalStorage("cart", newCart);
+        cartUpdated = true;
+      }
+    });
+
+    if (!cartUpdated) {
+      console.log("LOOKS LIKE A NEW PRODUCT, ADDING TO CART");
+      newCart.push(cartProduct);
+      cartService.addToLocalStorage("cart", newCart);
+    }
+
+    navigate("/cart");
+
+    // newCart.push(cartProduct);
+
+    // cartService.addToLocalStorage("cart", newCart);
+
+    // navigate("/cart");
   };
-
 
   return (
     <Flex
@@ -73,12 +71,7 @@ export const CartItem = (props) => {
       justify="space-between"
       align="center"
     >
-      <CartProductMeta
-        name={name?.substring(0, 40) + "..."}
-        description={description}
-        image={image}
-        id={id}
-      />
+      <CartProductMeta name={name?.substring(0, 40) + "..."} description={description} image={image} id={id} />
 
       {/* Desktop */}
       <Flex
@@ -100,14 +93,13 @@ export const CartItem = (props) => {
         )}
 
         {isWishList && (
-          <Button onClick={addToCart}>Add to Cart </Button>
+          <Button colorScheme="teal" onClick={addToCart}>
+            Add to Cart{" "}
+          </Button>
         )}
 
         <PriceTag price={price} currency={currency} />
-        <CloseButton
-          aria-label={`Delete ${name} from cart`}
-          onClick={() => onClickDelete(id)}
-        />
+        <CloseButton aria-label={`Delete ${name} from cart`} onClick={() => onClickDelete(id)} />
       </Flex>
 
       {/* Mobile */}
@@ -121,10 +113,7 @@ export const CartItem = (props) => {
           md: "none",
         }}
       >
-        <Link
-          aria-label={`Delete ${name} from cart`}
-          onClick={() => onClickDelete(id)}
-        >
+        <Link to="/" aria-label={`Delete ${name} from cart`} onClick={() => onClickDelete(id)}>
           Delete
         </Link>
 

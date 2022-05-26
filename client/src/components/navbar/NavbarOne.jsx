@@ -72,7 +72,9 @@ export const NavbarOne = (props) => {
               {/* <NavAction.Desktop label="Wishlist" href="" icon={RiHeartLine} /> */}
               {loggedInUser ? (
                 // <Text>
-                <NavAction.Desktop label="Logout" {...props} icon={AiOutlineLogout} />
+                <Link to='#'>
+                  <NavAction.Desktop label="Logout" {...props} icon={AiOutlineLogout} />
+                </Link>
               ) : (
                 // </Text>
                 <Link to="/login">

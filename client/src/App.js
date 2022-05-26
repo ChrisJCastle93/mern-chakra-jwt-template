@@ -59,6 +59,8 @@ function App() {
     setSearchResultsArray(searchResults.data);
   };
 
+  console.log('USER', loggedInUser)
+
   return (
     <ChakraProvider>
       {loading ? (
@@ -70,6 +72,7 @@ function App() {
             <Box flexGrow="1">
               <Routes>
                 <Route path="/" element={<Home loggedInUser={loggedInUser} />} />
+                <Route path="/:id" element={<Home loggedInUser={loggedInUser} />} />
                 <Route path="/test" element={<Test />} />
                 <Route path="/cart" element={<Cart loggedInUser={loggedInUser} loginToCheckout={loginToCheckout} />} />
                 <Route path="/profile/edit" element={<UpdateUserForm loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />} />
@@ -79,10 +82,10 @@ function App() {
                 <Route path="/search" element={<SearchContainer handleSearchResults={handleSearchResults} />} />
                 <Route path="/search/results" element={<SearchResults searchResultsArray={searchResultsArray} />} />
                 <Route path="/search/results/:id/:price" element={<ProductDetail />} />
-                <Route path="/checkout/:id" element={<Checkout loggedInUser={loggedInUser} />} />
+                {/* <Route path="/checkout/:id" element={<Checkout loggedInUser={loggedInUser} />} /> */}
               </Routes>
             </Box>
-            <Divider mt="40px" />
+            <Divider />
             <Footer />
           </Flex>
         </div>

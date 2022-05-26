@@ -27,7 +27,15 @@ router.post("/new", async (req, res) => {
 
 router.post("/:id/paid", async (req, res) => {
   const orderId = req.params.id;
-  Order.findByIdAndUpdate(orderId, { paid: true }, { new: true });
 });
+
+router.get('/', async (req, res) => {
+  // const { user } = req.body;
+  const user = await User.findById("627ab5e0064adde0da3d04d3").populate({
+    path: "orders",
+    model: "Order",
+  });
+  res.json(user.orders)
+})
 
 module.exports = router;
