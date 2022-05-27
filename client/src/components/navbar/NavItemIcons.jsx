@@ -8,7 +8,7 @@ export const items = {
     href: '#',
   },
   user: {
-    label: 'Sign in',
+    label: 'Login',
     icon: AiOutlineUser,
     href: '#',
   },

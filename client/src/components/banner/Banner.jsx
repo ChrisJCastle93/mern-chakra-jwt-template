@@ -23,14 +23,6 @@ export const Banner = (props) => {
         position="relative"
         borderRadius="xl"
       >
-        <CloseButton
-          display={{
-            sm: "none",
-          }}
-          position="absolute"
-          right="2"
-          top="2"
-        />
         <Stack
           direction={{
             base: "column",
@@ -73,8 +65,9 @@ export const Banner = (props) => {
                 sm: "0",
               }}
             >
-              <Text fontWeight="medium">{message}</Text>
-              {/* <Text color="on-accent-muted">Read our press release</Text> */}
+              <Text fontWeight="medium" textAlign="center" fontSize="xs">
+                {message}
+              </Text>
             </Stack>
           </Stack>
           <Stack
@@ -90,14 +83,7 @@ export const Banner = (props) => {
               base: "stretch",
               sm: "center",
             }}
-          >
-            {/* <CloseButton
-              display={{
-                base: "none",
-                sm: "inline-flex",
-              }}
-            /> */}
-          </Stack>
+          ></Stack>
         </Stack>
       </Box>
     </Container>

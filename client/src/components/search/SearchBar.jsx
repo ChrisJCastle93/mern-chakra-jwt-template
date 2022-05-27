@@ -14,7 +14,7 @@ export default function SearchBar(props) {
         <InputLeftElement>
           <Icon as={RiSearchLine} color="gray.500" fontSize="lg" />
         </InputLeftElement>
-        <Input borderRightRadius="0" focusBorderColor="blue.500" width="full" fontSize="sm" variant="filled" type="text" placeholder="What are you looking for? Use the microphone to search by voice." autoComplete="off" value={props.searchTerm} onChange={(e) => handleChange(e)} />
+        <Input borderRightRadius="0" focusBorderColor="blue.500" width="full" fontSize="xs" variant="filled" type="text" placeholder="What are you looking for? Use the microphone to search by voice." autoComplete="off" value={props.searchTerm} onChange={(e) => handleChange(e)} />
       </InputGroup>
     </form>
   );

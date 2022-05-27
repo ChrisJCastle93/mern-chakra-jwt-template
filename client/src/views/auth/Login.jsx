@@ -14,6 +14,8 @@ export const Login = (props) => {
 
   const [errorMessage, setErrorMessage] = useState("");
 
+  const variant = useBreakpointValue({ base: false, md: true });
+
   const {
     register,
     handleSubmit,
@@ -21,9 +23,7 @@ export const Login = (props) => {
   } = useForm();
 
   const onSubmit = async (e) => {
-    console.log("SUBMITTING");
     const res = await apiService.login(e.username, e.password);
-    console.log("RECEIVED RESPONSE");
     console.log(res);
 
     if (res.errorMessage) {
@@ -33,11 +33,9 @@ export const Login = (props) => {
       }, 4000);
     } else {
       await props.setLoggedInUser(res);
-
       if (props.cameFromCheckout) {
         navigate("/cart");
       } else {
-        console.log('navving to profile')
         navigate("/profile");
       }
     }
@@ -45,55 +43,6 @@ export const Login = (props) => {
 
   return (
     <>
-      {/* <div className="auth-container">
-        <div className="auth-div">
-          <h1>Welcome back</h1>
-          <form className="auth-form" onSubmit={handleSubmit(onSubmit)}>
-            <label className="label" htmlFor="login">
-              Username:
-            </label>
-            <input
-              className="input"
-              {...register("username", {
-                required: "Please enter a valid username",
-              })}
-              placeholder="Username"
-              name="username"
-            />
-            <p>{errors.username?.message}</p>
-
-            <label className="label" htmlFor="password">
-              Password:
-            </label>
-            <input
-              type="password"
-              {...register("password", {
-                required: "This is required",
-                minLength: {
-                  value: 8,
-                  message: "Password must be over 8 characters",
-                },
-              })}
-              placeholder="enter a password"
-              name="password"
-            />
-            <p>{errors.password?.message}</p>
-            <button className="btn" type="submit">
-              Login
-            </button>
-          </form>
-          <div className="auth-nav-div">
-            <h3 className="auth-head">Don't have an account?</h3>
-            <NavLink to="/signup" className="auth-btn-2">
-              Sign up
-            </NavLink>
-          </div>
-        </div>
-        <div>
-          <img className="auth-img" src={authLamp} alt="lamp-setting" />
-        </div>
-      </div> */}
-
       <Box
         bgImage={heroone}
         bgSize="cover"
@@ -114,27 +63,26 @@ export const Login = (props) => {
             sm: "10",
           }}
           bg={useBreakpointValue({
-            base: "white",
-            sm: "white",
+            base: "none",
+            md: "white",
           })}
           boxShadow={{
             base: "none",
             sm: "xl",
           }}
           borderRadius={{
-            base: "none",
-            sm: "xl",
+            base: "md",
+            sm: "md",
           }}
         >
           <Stack spacing="8">
             <Stack spacing="6" align="center">
-              <Logo />
+              {variant ? <Logo /> : <Box></Box>}
               <Stack spacing="3" textAlign="center">
                 <Heading size="lg">Login.</Heading>
               </Stack>
             </Stack>
             <Stack spacing="6">
-              <Divider />
               <Stack spacing="4">
                 {errorMessage && (
                   <Text align="center" bg="red.100" borderRadius="md" px={4} py={2}>
@@ -153,6 +101,7 @@ export const Login = (props) => {
                       placeholder="Username"
                       autoComplete="username"
                       mt={1}
+                      bg="white"
                     />
                     {errors.username ? <FormHelperText my={2}>{errors.username.message}</FormHelperText> : <></>}
                     <FormLabel mt={4} htmlFor="password">
@@ -168,6 +117,7 @@ export const Login = (props) => {
                       })}
                       id="password"
                       mt={1}
+                      bg="white"
                       type="password"
                       placeholder="Password"
                       autoComplete="current-password"

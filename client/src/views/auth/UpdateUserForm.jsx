@@ -10,14 +10,12 @@ export const UpdateUserForm = (props) => {
   // const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors } } = useForm();
   const id = props.loggedInUser._id
-  console.log("props", props);
   const onSubmit = async (data) => {
 
     const res = await apiService.update(data.username, data.password, id)
     props.setLoggedInUser(res)
   };
 
-  console.log(props.loggedInUser?.username)
   return (
     <container>
       <div className="img-container">

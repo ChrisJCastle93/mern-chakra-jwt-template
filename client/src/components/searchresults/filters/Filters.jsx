@@ -10,69 +10,28 @@ import { MobileFilter } from "./MobileFilter";
 import { blueFilters, breadcrumbData, colorFilter, genderFilter, sizeFilter } from "./_data";
 
 export const Filters = (props) => {
-
   const { minPriceFilter, maxPriceFilter, maxPriceFilterInitialValue, products, minPriceFilterInitialValue } = props;
 
   const updatePriceFilter = (filter, value) => {
-
-    if(filter == 'min') {
+    if (filter == "min") {
       props.filterByPrice(1, Number(value));
-    } else if (filter == 'max') {
+    } else if (filter == "max") {
       props.filterByPrice(0, Number(value));
     }
-  }
+  };
 
   return (
-    <Box
-      maxW="7xl"
-      mx="auto"
-      px={{
-        base: "4",
-        md: "8",
-        lg: "12",
-      }}
-      py={{
-        base: "6",
-        md: "8",
-        lg: "12",
-      }}
-    >
-      <Box
-        mt={{
-          base: "8",
-          md: "16",
-        }}
-      >
-        <Grid
-          templateColumns={{
-            base: "1fr",
-            md: "240px 1fr",
-          }}
-          gap="14"
-        >
-          <Stack
-            spacing="10"
-            maxW="240px"
-            display={{
-              base: "none",
-              md: "flex",
-            }}
-          >
-            {/* <CheckboxFilter spacing="3" options={products} label="Brands" /> */}
-            {/* <SizePicker {...sizeFilter} label="Size" /> */}
-            {/* <ColorPicker {...colorFilter} label="Color" /> */}
-            {/* <CheckboxFilter spacing="3" options={blueFilters.options} label="Brand" showSearch /> */}
-            <Stack spacing="5">
-              <label>Price range</label>
-              <PriceRangePicker minPriceFilter={minPriceFilter} maxPriceFilter={maxPriceFilter} updatePriceFilter={updatePriceFilter} maxPriceFilterInitialValue={maxPriceFilterInitialValue} minPriceFilterInitialValue={minPriceFilterInitialValue} />
-              {/* <PriceRangePicker defaultValue={[minPriceFilter, maxPriceFilter]} /> */}
-              <HStack spacing="6">
-                <Input type="number" onChange={(e) => updatePriceFilter("min", e.target.value)} value={minPriceFilter} placeholder="$500" />
-                <Input type="number" onChange={(e) => updatePriceFilter("max", e.target.value)} value={maxPriceFilter} placeholder="$10000" />
-              </HStack>
-            </Stack>
-          </Stack>
-        </Grid>
+    <Box w="80%" mt={4} mx="auto">
+      <Box>
+        <Stack spacing="5">
+          <Heading fontSize="sm">Price range</Heading>
+          <PriceRangePicker minPriceFilter={minPriceFilter} maxPriceFilter={maxPriceFilter} updatePriceFilter={updatePriceFilter} maxPriceFilterInitialValue={maxPriceFilterInitialValue} minPriceFilterInitialValue={minPriceFilterInitialValue} />
+          {/* <PriceRangePicker defaultValue={[minPriceFilter, maxPriceFilter]} /> */}
+          <HStack width="max-content" spacing="2">
+            <Input w={100} type="number" fontSize="xs" onChange={(e) => updatePriceFilter("min", e.target.value)} value={minPriceFilter} placeholder="$500" />
+            <Input w={100} type="number" fontSize="xs" onChange={(e) => updatePriceFilter("max", e.target.value)} value={maxPriceFilter} placeholder="$10000" />
+          </HStack>
+        </Stack>
       </Box>
     </Box>
   );

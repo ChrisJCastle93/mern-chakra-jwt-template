@@ -2,17 +2,6 @@ import { RangeSlider, RangeSliderFilledTrack, RangeSliderThumb, RangeSliderTrack
 import React from "react";
 
 export const PriceRangePicker = (props) => {
-  // let [lowDefaultValue, setLowDefaultValue] = React.useState(0);
-  // let [highDefaultValue, setHighDefaultValue] = React.useState(0);
-  // // const value = props.defaultValue || props.value;
-
-  // console.log(props.maxPriceFilterInitialValue, "initial max value");
-  // console.log(props.minPriceFilterInitialValue, "initial min value");
-
-  // React.useEffect(() => {
-  //   setLowDefaultValue(props.minPriceFilterInitialValue);
-  //   setHighDefaultValue(props.maxPriceFilterInitialValue);
-  // });
 
   return (
     <>
@@ -25,7 +14,7 @@ export const PriceRangePicker = (props) => {
             props.updatePriceFilter("min", e[0]);
             props.updatePriceFilter("max", e[1]);
           }}
-          colorScheme="blue"
+          colorScheme="teal"
           step={10}
           aria-label={["minimum price", "maximux price"]}
         >

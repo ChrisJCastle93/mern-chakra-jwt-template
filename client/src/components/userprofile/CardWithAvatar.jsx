@@ -8,7 +8,7 @@ export const CardWithAvatar = (props) => {
       position="relative"
       direction="column"
       align={{
-        sm: 'center',
+        base: 'center',
       }}
       maxW="2xl"
       mx="auto"

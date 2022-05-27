@@ -38,28 +38,16 @@ export const CartItem = (props) => {
 
     newCart.map((item) => {
       if (item.id == cartProduct.id) {
-        console.log("PRODUCT ALREADY IN CART");
-        // console.log("INCREASING QTY");
-        // item.quantity++;
-        // console.log(item.quantity);
-        // cartService.addToLocalStorage("cart", newCart);
         cartUpdated = true;
       }
     });
 
     if (!cartUpdated) {
-      console.log("LOOKS LIKE A NEW PRODUCT, ADDING TO CART");
       newCart.push(cartProduct);
       cartService.addToLocalStorage("cart", newCart);
     }
 
     navigate("/cart");
-
-    // newCart.push(cartProduct);
-
-    // cartService.addToLocalStorage("cart", newCart);
-
-    // navigate("/cart");
   };
 
   return (
@@ -117,13 +105,22 @@ export const CartItem = (props) => {
           Delete
         </Link>
 
-        <QuantitySelect
-          data-id={id}
-          value={quantity}
-          onChange={(e) => {
-            onChangeQuantity(e.currentTarget);
-          }}
-        />
+        {isCart && (
+          <QuantitySelect
+            data-id={id}
+            value={quantity}
+            onChange={(e) => {
+              onChangeQuantity(e.currentTarget);
+            }}
+          />
+        )}
+
+        {isWishList && (
+          <Button colorScheme="teal" onClick={addToCart}>
+            Add to Cart{" "}
+          </Button>
+        )}
+
         <PriceTag price={price} currency={currency} />
       </Flex>
     </Flex>

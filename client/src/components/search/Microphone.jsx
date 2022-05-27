@@ -26,7 +26,6 @@ export default function Microphone(props) {
     });
 
     mediaRecorder.addEventListener("stop", () => {
-      console.log("STOPPED MEDIA RECORDING");
       stream.getTracks().forEach(function (track) {
         track.stop();
       });
@@ -35,7 +34,6 @@ export default function Microphone(props) {
     });
 
     stopButton.addEventListener("click", () => {
-      console.log("CLICKED STOP BUTTON");
       mediaRecorder.stop();
       setStopButtonDisplay("none");
       // setSpinnerDisplay("block");
