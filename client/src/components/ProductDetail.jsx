@@ -45,17 +45,13 @@ function ProductDetail() {
 
     newCart.map((item) => {
       if (item.id == cartProduct.id) {
-        console.log("PRODUCT ALREADY IN CART");
-        console.log("INCREASING QTY");
         item.quantity++;
-        console.log(item.quantity);
         cartService.addToLocalStorage("cart", newCart);
         cartUpdated = true;
       }
     });
 
     if (!cartUpdated) {
-      console.log("LOOKS LIKE A NEW PRODUCT, ADDING TO CART");
       newCart.push(cartProduct);
       cartService.addToLocalStorage("cart", newCart);
     }
@@ -83,7 +79,6 @@ function ProductDetail() {
 
     cartService.addToLocalStorage("wishlist", newWishlist);
 
-    console.log("wishlist cliicked");
 
     setIsWishListed((s) => !s);
 
@@ -91,7 +86,6 @@ function ProductDetail() {
   };
 
   useEffect(() => {
-    console.log("USING EFFECT");
     const wishlist = cartService.getFromLocalStorage("wishlist");
     const cart = cartService.getFromLocalStorage("cart");
     if (!wishlist || !cart) {
@@ -101,17 +95,15 @@ function ProductDetail() {
     axios
       .get(`${process.env.REACT_APP_API_URL}/api/search/results/${productId}`)
       .then((response) => {
-        console.log("API RESPONSE FROM SEARCH");
         setIsLoading(false);
         setProduct(response.data.product);
       })
       .catch((err) => console.log(err));
   }, [productId]);
 
-  console.log(product);
 
   return (
-    <Container maxW={"7xl"}>
+    <Container px={8} maxW={"7xl"}>
       {isLoading ? (
         <Flex justify="center" direction="column" height="60vh" align="center">
           <Spinner thickness="4px" speed="0.65s" emptyColor="gray.200" color="teal" size="xl" />

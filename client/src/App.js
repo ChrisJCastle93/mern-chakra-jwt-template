@@ -40,6 +40,8 @@ function App() {
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  console.log(loggedInUser);
+
   React.useEffect(() => {
     const fetchUser = async () => {
       const res = await apiService.isLoggedIn();
@@ -50,6 +52,7 @@ function App() {
   }, []);
 
   const logoutHandler = async () => {
+    console.log('logging out')
     await apiService.logout();
     setLoggedInUser(null);
     navigate("/");
@@ -58,8 +61,6 @@ function App() {
   const handleSearchResults = (searchResults) => {
     setSearchResultsArray(searchResults.data);
   };
-
-  console.log('USER', loggedInUser)
 
   return (
     <ChakraProvider>

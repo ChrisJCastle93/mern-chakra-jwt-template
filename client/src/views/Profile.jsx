@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { CartItem } from "../components/cart/CartItem";
 import { cartService } from "../services/localStorage";
-import { Box, Button, Divider, Badge, Heading, Text, useColorModeValue, Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer } from "@chakra-ui/react";
+import { Box, Button, Divider, Badge, Heading, Text, useColorModeValue, Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer, useBreakpointValue } from "@chakra-ui/react";
 import { HiPencilAlt } from "react-icons/hi";
 import { CardContent } from "../components/userprofile/CardContent";
 import { CardWithAvatar } from "../components/userprofile/CardWithAvatar";
@@ -23,19 +23,17 @@ export default function Profile(props) {
   useEffect(() => {
     setWishlist(wishlist);
     axios
-      .get(`${process.env.REACT_APP_API_URL}/api/order`, props.loggedInUser._id)
+      .get(`${process.env.REACT_APP_API_URL}/api/order/${props.loggedInUser._id}`)
       .then((res) => {
         setOrderHistory(res.data);
       })
       .catch((err) => console.log(err));
   }, []);
 
-  console.log(wishlistData);
-
   return (
     <>
       <Box height="max-content" as="section" position="relative">
-        <Box inset="0" height="48" bg="teal" />
+        <Box inset="0" height={{ base: 32, md: 48 }} bg="teal" />
         <CardWithAvatar
           mt={-10}
           maxW="7xl"
@@ -44,7 +42,7 @@ export default function Profile(props) {
           }}
         >
           <CardContent w="100%">
-            <Heading size="lg" fontWeight="extrabold" letterSpacing="tight">
+            <Heading textAlign="center" size="lg" my={4} fontWeight="extrabold" letterSpacing="tight">
               {props.loggedInUser.username}
             </Heading>
             <Heading size="md" align="left" fontWeight="bold" letterSpacing="tight">
@@ -65,28 +63,24 @@ export default function Profile(props) {
                   {orderHistory ? (
                     orderHistory.map((order, index) => {
                       return (
-                        <Tr>
+                        <Tr key={index}>
                           <Td>
                             <Text align="left" fontSize="xs" fontWeight="light" key={index}>
                               {order._id}
                             </Text>
                           </Td>
-                          <Td >
+                          <Td>
                             {" "}
-                            <Text align="left" fontSize="xs" fontWeight="light" key={index}>
-                              {order.products.map((product, index) => {
-                                return (
-                                  <>
-                                    <Text noOfLines={0} fontSize="xs">
-                                      <Text isTruncated as="span" fontWeight="medium" fontSize="xs">
-                                        Qty: {product.quantity} - 
-                                      </Text>
-                                      {` ${product.name.substring(0, 30)}...  `}
-                                    </Text>
-                                  </>
-                                );
-                              })}
-                            </Text>
+                            {order.products.map((product, index) => {
+                              return (
+                                <Text noOfLines={0} key={index} align="left" fontSize="xs" fontWeight="light">
+                                  <Text isTruncated as="span" fontWeight="medium" fontSize="xs">
+                                    Qty: {product.quantity} -
+                                  </Text>
+                                  {` ${product.name.substring(0, 30)}...  `}
+                                </Text>
+                              );
+                            })}
                           </Td>
                           <Td>{order.paid ? <Badge colorScheme="green">Paid</Badge> : <Badge colorScheme="red">Not Paid</Badge>}</Td>
                           <Td>
@@ -110,10 +104,10 @@ export default function Profile(props) {
               Wishlist
             </Heading>
             <Divider mb={8} />
-            {wishlistData ?
-              wishlistData?.map((item) => {
-                return <CartItem align="left" key={item.id} {...item} onClickDelete={onClickDelete} isWishList noQuantity />;
-              }
+            {wishlistData ? (
+              wishlistData?.map((item, index) => {
+                return <CartItem align="left" key={index} {...item} onClickDelete={onClickDelete} isWishList noQuantity />;
+              })
             ) : (
               <Text align="left" fontSize="xs" fontWeight="light">
                 No wishlist items yet.

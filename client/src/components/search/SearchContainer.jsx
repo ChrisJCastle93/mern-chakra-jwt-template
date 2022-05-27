@@ -26,8 +26,10 @@ export default function SearchContainer(props) {
   useEffect(() => {
     if (speechDone) {
       searchAmazon();
+      setSpeechDone(false);
     }
   }, [speechDone]);
+
 
   const searchAmazon = async () => {
     setIsLoading(true);
@@ -43,7 +45,7 @@ export default function SearchContainer(props) {
   };
 
   return (
-    <Flex>
+    <Flex flex="1" width="90%" my={2}>
       {isLoading ? (
         <Flex flex="1" align="center" justify="center">
           <Spinner thickness="2px" speed="1s" color="teal" m={2} p={2} />

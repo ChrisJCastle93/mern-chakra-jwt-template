@@ -4,6 +4,8 @@ const stripe = require("stripe")(process.env.STRIPE_SECRET)
 
 router.post("/create-checkout-session", async (req, res) => {
 
+  console.log('REQ.BODY.ID for STRIPE', req.body.id)
+
   const session = await stripe.checkout.sessions.create({
     line_items: [
       {
@@ -18,8 +20,6 @@ router.post("/create-checkout-session", async (req, res) => {
       },
     ],
     mode: "payment",
-    // success_url: `${process.env.ORIGIN}/checkout/${req.body.id}?success=true`,
-    // cancel_url: `${process.env.ORIGIN}/checkout/${req.body.id}?canceled=true`,
     success_url: `${process.env.ORIGIN}/${req.body.id}?success=true`,
     cancel_url: `${process.env.ORIGIN}/${req.body.id}?canceled=true`,
   });

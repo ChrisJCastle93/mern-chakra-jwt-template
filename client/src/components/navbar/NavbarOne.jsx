@@ -1,4 +1,4 @@
-import { Box, Center, Flex, HStack, Text, useColorModeValue as mode, VisuallyHidden } from "@chakra-ui/react";
+import { Box, Center, Flex, HStack, Text, Button, MenuDivider, Menu, MenuButton, MenuList, MenuGroup, MenuItem, useColorModeValue as mode, VisuallyHidden, useBreakpointValue } from "@chakra-ui/react";
 import * as React from "react";
 import { AiOutlineUser, AiOutlineLogout } from "react-icons/ai";
 import { MdMenu } from "react-icons/md";
@@ -18,78 +18,64 @@ import SearchContainer from "../search/SearchContainer";
 
 export const NavbarOne = (props) => {
   const { loggedInUser } = props;
+  const variant = useBreakpointValue({ base: false, md: true });
 
   return (
     <>
-      <Flex
-        direction="column"
-        // pb="4.5rem"
-        overflow="hidden"
-        display={{
-          base: "flex",
-          lg: "none",
-        }}
-      >
-        <Box px="4" py="4" borderBottomWidth="1px" overflow="auto">
-          <Flex
-            align="center"
-            justify="space-between"
-            mb="3"
-            display={{
-              base: "flex",
-              lg: "none",
-            }}
-          >
-            <HStack spacing="3">
-              <Center w="8" h="8" as="button" type="button">
-                <VisuallyHidden>Toggle Menu</VisuallyHidden>
-                <Box as={MdMenu} fontSize="3xl" />
-              </Center>
-              <Logo />
-            </HStack>
-          </Flex>
-          {/* <SearchInput /> */}
-        </Box>
-        {/* <SearchContainer handleSearchResults={props.handleSearchResults} /> */}
-      </Flex>
-
-      <Box
-        display={{
-          base: "none",
-          lg: "block",
-        }}
-      >
-        <Box px="8" bg={mode("white", "gray.800")}>
-          <Flex height="6rem" align="center" maxW="8xl" mx="auto">
-            <Link to="/">
-              <Logo />
-            </Link>
-            <Box width="full" px="64">
-              <SearchContainer handleSearchResults={props.handleSearchResults} />
-              {/* <SearchInput handleSearchResults={props.handleSearchResults} /> */}
-            </Box>
-            <HStack spacing="8" flexShrink={0}>
-              {/* <NavAction.Desktop label="Wishlist" href="" icon={RiHeartLine} /> */}
+      <Box borderBottom="1px" borderColor="gray.100">
+        {!variant ? (
+          <Flex py={2} direction="column" align="center">
+            <Flex justify="space-around" align="center" width="100%">
               {loggedInUser ? (
-                // <Text>
-                <Link to='#'>
+                <Link to="#">
                   <NavAction.Desktop label="Logout" {...props} icon={AiOutlineLogout} />
                 </Link>
               ) : (
-                // </Text>
                 <Link to="/login">
-                  <NavAction.Desktop label="Sign in" icon={AiOutlineUser} />
+                  <NavAction.Desktop label="Login" icon={AiOutlineUser} />
                 </Link>
               )}
+              <Link to="/">
+                <Logo />
+              </Link>{" "}
               <Box position="relative">
                 <Link to="/cart">
                   <NavAction.Desktop label="Cart" icon={RiShoppingCartLine} />
                   <CartCount>{props.cart.length}</CartCount>
                 </Link>
               </Box>
-            </HStack>
+            </Flex>
+            <SearchContainer handleSearchResults={props.handleSearchResults} />
           </Flex>
-        </Box>
+        ) : (
+          <>
+            <Flex py={4} justify="space-between" align="center" mx="auto">
+              <Link px={4} to="/">
+                <Logo />
+              </Link>
+              <SearchContainer handleSearchResults={props.handleSearchResults} />
+              <HStack mx={4} justify="flex-end" flexShrink={0}>
+                {loggedInUser ? (
+                  <Link to="#">
+                    <Button onClick={props.logoutHandler}>
+                      <NavAction.Desktop label="Logout" {...props} icon={AiOutlineLogout} />
+                    </Button>
+                  </Link>
+                ) : (
+                  <Link to="/login">
+                    <NavAction.Desktop label="Sign in" icon={AiOutlineUser} />
+                  </Link>
+                )}
+                <Box position="relative">
+                  <Link to="/cart">
+                    <NavAction.Desktop label="Cart" icon={RiShoppingCartLine} />
+                    <CartCount>{props.cart.length}</CartCount>
+                  </Link>
+                </Box>
+              </HStack>
+            </Flex>
+          </>
+        )}
       </Box>
     </>
   );

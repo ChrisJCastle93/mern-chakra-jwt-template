@@ -1,4 +1,4 @@
-import { Box, Divider, Heading, Grid, Text, GridItem } from "@chakra-ui/react";
+import { Box, Divider, Heading, Grid, Text, Flex, GridItem } from "@chakra-ui/react";
 import * as React from "react";
 import { ProductCard } from "../components/ProductCard";
 // import { products } from "./_data";
@@ -13,12 +13,9 @@ export default function SearchResults(props) {
   let [minPriceFilterInitialValue, setMinPriceFilterInitialValue] = React.useState(0);
   let [brandFilter, setBrandFilter] = React.useState([]);
 
-  console.log(minPriceFilter, maxPriceFilter, "MIN AND MAX FILTERS");
-
   const products = props.searchResultsArray;
 
   const filteredSearchResultsArray = props.searchResultsArray.filter((product) => {
-    console.log(product.price.value, "PRODUCT PRICE");
     return product.price.value > minPriceFilter && product.price.value < maxPriceFilter;
   });
 
@@ -32,14 +29,14 @@ export default function SearchResults(props) {
 
   const addToBrandFilter = (brand) => {
     const newFilter = [...brandFilter, brand];
-    setBrandFilter(newFilter)
-  }
+    setBrandFilter(newFilter);
+  };
 
   const removeFromBrandFilter = (brand) => {
     const oldFilter = [...brandFilter];
-    const newFilter = oldFilter.filter(brandInFilter => brand !== brandInFilter)
-    setBrandFilter(newFilter)
-  }
+    const newFilter = oldFilter.filter((brandInFilter) => brand !== brandInFilter);
+    setBrandFilter(newFilter);
+  };
 
   React.useEffect(() => {
     const params = new URLSearchParams(window.location.search); // id=123
@@ -49,7 +46,6 @@ export default function SearchResults(props) {
     setSearchTerm(sanitizedQuery);
 
     const filteredSearchResultsArray = props.searchResultsArray.filter((product) => {
-      console.log(product.price.value, "PRODUCT PRICE");
       return product.price.value > minPriceFilter && product.price.value < maxPriceFilter;
     });
 
@@ -81,40 +77,39 @@ export default function SearchResults(props) {
   }, []);
 
   return (
-    <Grid templateColumns="repeat(4, 1fr)" gap={6}>
-      <GridItem colSpan={1} borderRight="1px" borderColor="gray.200">
+    <Flex direction="column">
+      {/* <Box> */}
         <Filters filterByPrice={filterByPrice} minPriceFilter={minPriceFilter} maxPriceFilter={maxPriceFilter} filteredSearchResultsArray={filteredSearchResultsArray} maxPriceFilterInitialValue={maxPriceFilterInitialValue} minPriceFilterInitialValue={minPriceFilterInitialValue} addToBrandFilter={addToBrandFilter} removeFromBrandFilter={removeFromBrandFilter} products={products} />
-      </GridItem>
-      <GridItem
-        colSpan={3}
-        maxW="7xl"
-        mx="auto"
-        px={{
-          base: "4",
-          md: "8",
-          lg: "12",
-        }}
-        py={{
-          base: "6",
-          md: "8",
-          lg: "12",
-        }}
-      >
-        <Heading mx="auto" pb="20px" size="md">
-          {filteredSearchResultsArray.length} Search Results for{" "}
-          <Text as="span" color="teal">
-            "{searchTerm}"
-          </Text>
-        </Heading>
-        <Divider mb="20px" />
-        <ProductGrid>
-          {/* <h1>{products.length}</h1> */}
-          {filteredSearchResultsArray.map((product) => (
-            // {products.map((product) => (
-            <ProductCard key={product.asin} product={product} />
-          ))}
-        </ProductGrid>
-      </GridItem>
-    </Grid>
+      {/* </Box> */}
+      <Grid templateColumns="repeat(4, 1fr)" gap={6}>
+        <GridItem
+          colSpan={4}
+          mx="auto"
+          px={{
+            base: "4",
+            md: "4",
+            lg: "6",
+          }}
+          py={{
+            base: "6",
+            md: "8",
+            lg: "12",
+          }}
+        >
+          <Heading mx="auto" pb="20px" size="md">
+            {filteredSearchResultsArray.length} Search Results for{" "}
+            <Text as="span" color="teal">
+              "{searchTerm}"
+            </Text>
+          </Heading>
+          <Divider mb="20px" />
+          <ProductGrid>
+            {filteredSearchResultsArray.map((product,index) => (
+              <ProductCard key={index}  product={product} />
+            ))}
+          </ProductGrid>
+        </GridItem>
+      </Grid>
+    </Flex>
   );
 }
