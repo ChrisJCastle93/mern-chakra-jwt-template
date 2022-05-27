@@ -12,7 +12,7 @@ const cacheSearch = async (req, res, next) => {
 
   const client = await redis.createClient(REDIS_PORT);
   console.log('CONNECTING TO REDIS')
-  await client.connect();
+  await client.connect(REDIS_PORT);
   console.log('SUCCESSFULLY CONNECTED TO REDIS')
 
   req.client = client;
