@@ -3,16 +3,22 @@ const fs = require("fs");
 const axios = require("axios");
 
 const redis = require("redis");
-const REDIS_PORT = process.env.REDIS_URL || 6379;
+const REDIS_PORT = process.env.REDIS_URL;
+// const REDIS_PORT = process.env.REDIS_URL || 6379;
 console.log(REDIS_PORT)
 
 const cacheSearch = async (req, res, next) => {
   const amazonSearchQuery = req.query.q.replaceAll("+", " ");
 
   const client = await redis.createClient(REDIS_PORT);
+  console.log('CONNECTING TO REDIS')
   await client.connect();
+  console.log('SUCCESSFULLY CONNECTED TO REDIS')
+
   req.client = client;
   const data = await client.get(amazonSearchQuery);
+
+  console.log('CONNECTED TO REDIS')
 
   if (data !== null) {
     const parsedData = JSON.parse(data);
