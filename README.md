@@ -12,9 +12,9 @@ With that in mind, I wanted to start leveraging AI across different projects. In
 I built this in around two weeks as part of Ironhack's part-time Web Development Bootcamp as my third project, and is my first React app.
 
 ## Cool Features
-** Speech-To-Text: ** Search for products using just your voice! The captured audio is processed by IBM's Watson AI.
-** Caching: ** the performance of the Amazon-searching API I used is *terrible*. To counteract this, I cache the search results based on the search term for a week using Redis. 
-** Stripe: ** complete checkout like a real e-comm site using Stripe. 
+**Speech-To-Text:** Search for products using just your voice! The captured audio is processed by IBM's Watson AI.
+**Caching:** the performance of the Amazon-searching API I used is *terrible*. To counteract this, I cache the search results based on the search term for a week using Redis. 
+**Stripe:** complete checkout like a real e-comm site using Stripe. 
 
 ## Technologies Used
 - React
