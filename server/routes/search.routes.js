@@ -3,9 +3,8 @@ const fs = require("fs");
 const axios = require("axios");
 
 const redis = require("redis");
-const REDIS_PORT = process.env.REDIS_URL;
-// const REDIS_PORT = process.env.REDIS_URL || 6379;
-console.log(REDIS_PORT)
+
+const REDIS_PORT = process.env.REDIS_URL || 6379;
 
 const cacheSearch = async (req, res, next) => {
   const amazonSearchQuery = req.query.q.replaceAll("+", " ");
