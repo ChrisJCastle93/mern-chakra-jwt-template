@@ -3,15 +3,23 @@ const fs = require("fs");
 const axios = require("axios");
 
 const redis = require("redis");
-const REDIS_PORT = process.env.REDIS_PORT || 6379;
+
+const REDIS_PORT = process.env.REDIS_URL || 6379;
 
 const cacheSearch = async (req, res, next) => {
   const amazonSearchQuery = req.query.q.replaceAll("+", " ");
 
-  const client = await redis.createClient(REDIS_PORT);
+  // const client = await redis.createClient(REDIS_PORT);
+  const client = redis.createClient({ url: process.env.REDIS_URL });
+
+  console.log('CONNECTING TO REDIS')
   await client.connect();
+  console.log('SUCCESSFULLY CONNECTED TO REDIS')
+
   req.client = client;
   const data = await client.get(amazonSearchQuery);
+
+  console.log('CONNECTED TO REDIS')
 
   if (data !== null) {
     const parsedData = JSON.parse(data);
@@ -25,17 +33,25 @@ const cacheSearch = async (req, res, next) => {
   }
 };
 
+// let redisClient;
+// if (process.env.REDISCLOUD_URL) {
+//   let redisURL = url.parse(process.env.REDISCLOUD_URL);
+//   redisClient = redis.createClient(redisURL);
+// } else {
+//   redisClient = redis.createClient();
+// }
+
 const cacheProduct = async (req, res, next) => {
   const productToSearch = req.params.id;
-  
+
   const client = await redis.createClient(REDIS_PORT);
   await client.connect();
   req.client = client;
   const data = await client.get(productToSearch);
-  
+
   if (data !== null) {
     const parsedData = JSON.parse(data);
-    console.log('FROM CACHE')
+    console.log("FROM CACHE");
     res.json(parsedData);
   } else {
     console.log("NOTHING IN CACHE");
@@ -44,17 +60,17 @@ const cacheProduct = async (req, res, next) => {
 };
 
 router.get("/", cacheSearch, async (req, res) => {
-// router.get("/", async (req, res) => {
+  // router.get("/", async (req, res) => {
   try {
     const { client } = req;
 
     const amazonSearchQuery = req.query.q.replaceAll("+", " ");
 
-    console.log('AMAZON SEARCH QUERY', amazonSearchQuery)
+    console.log("AMAZON SEARCH QUERY", amazonSearchQuery);
 
-    if(amazonSearchQuery.length == 0) {
-      console.log('NOTHING IN SEARCH PARAMS')
-      res.json('NOTHING')
+    if (amazonSearchQuery.length == 0) {
+      console.log("NOTHING IN SEARCH PARAMS");
+      res.json("NOTHING");
     }
 
     const params = {
@@ -70,18 +86,18 @@ router.get("/", cacheSearch, async (req, res) => {
     const filteredData = searchResults.filter((item) => !!item.prices);
     res.json(filteredData);
   } catch (err) {
-    console.log('ERROR IN SEARCH ROUTE');
+    console.log("ERROR IN SEARCH ROUTE");
   }
 });
 
 router.get("/results/:id", cacheProduct, async (req, res, next) => {
-// router.get("/results/:id", async (req, res, next) => {
+  // router.get("/results/:id", async (req, res, next) => {
   try {
     const { client } = req;
 
     const productToSearch = req.params.id;
 
-    console.log('PRODUCT TO SEARCH', productToSearch)
+    console.log("PRODUCT TO SEARCH", productToSearch);
 
     const params = {
       api_key: process.env.RAINFOREST,
@@ -90,16 +106,15 @@ router.get("/results/:id", cacheProduct, async (req, res, next) => {
       asin: productToSearch,
     };
 
-    const response = await axios.get("https://api.rainforestapi.com/request", { params })
+    const response = await axios.get("https://api.rainforestapi.com/request", { params });
 
     const productResults = response.data;
 
     await client.set(productToSearch, JSON.stringify(productResults), 3600);
-    console.log('NOT FROM CACHE')
-    console.log(productResults)
+    console.log("NOT FROM CACHE");
+    console.log(productResults);
 
     res.json(productResults);
-
   } catch (err) {
     console.log(err);
   }
