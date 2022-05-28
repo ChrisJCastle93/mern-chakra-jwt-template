@@ -1,9 +1,8 @@
 import { Box, Divider, Heading, Grid, Text, Flex, GridItem } from "@chakra-ui/react";
 import * as React from "react";
-import { ProductCard } from "../components/ProductCard";
-// import { products } from "./_data";
-import { ProductGrid } from "../components/ProductGrid";
-import { Filters } from "../components/searchresults/filters/Filters";
+import { ProductCard } from "../../components/searchresults/ProductCard";
+import { ProductGrid } from "../../components/searchresults/ProductGrid";
+import { Filters } from "../../components/searchresults/filters/Filters";
 
 export default function SearchResults(props) {
   let [searchTerm, setSearchTerm] = React.useState("");

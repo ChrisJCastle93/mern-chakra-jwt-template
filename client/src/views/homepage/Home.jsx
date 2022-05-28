@@ -1,11 +1,10 @@
-import PromoContainer from "./PromoContainer";
-import "../css/Home.css";
+import PromoContainer from "../../components/homepage/PromoContainer";
 import { Box, Heading, Text, Flex } from "@chakra-ui/react";
-import heroone from "../assets/heroone.jpg";
+import heroone from "../../assets/heroone.jpg";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Banner } from "../components/banner/Banner";
-import axios from 'axios'
+import { Banner } from "../../components/banner/Banner";
+import axios from "axios";
 
 function Home(props) {
   const [message, setMessage] = useState("");
