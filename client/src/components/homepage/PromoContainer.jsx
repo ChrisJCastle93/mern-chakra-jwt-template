@@ -22,7 +22,7 @@ export default function PromoContainer(props) {
       <Heading w="90%" mx="auto" pb="20px" pt="40px" size="lg">
         {props.header}
       </Heading>
-      <Grid templateColumns={{ base: "repeat(2, minmax(0, 1fr))", md: "repeat(4, minmax(0, 1fr))" }} autoColumns="auto">
+      <Grid w="90%" mx="auto" templateColumns={{ base: "repeat(2, minmax(0, 1fr))", md: "repeat(4, minmax(0, 1fr))" }} autoColumns="auto">
         {listOfPromo.map((x, index) => {
           return (
             <GridItem key={index}>

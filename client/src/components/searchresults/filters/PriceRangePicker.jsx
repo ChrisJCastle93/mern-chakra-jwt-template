@@ -2,10 +2,9 @@ import { RangeSlider, RangeSliderFilledTrack, RangeSliderThumb, RangeSliderTrack
 import React from "react";
 
 export const PriceRangePicker = (props) => {
-
   return (
     <>
-      {props.minPriceFilterInitialValue ? (
+      {props.minPriceFilterInitialValue !== undefined ? (
         <RangeSlider
           defaultValue={[props.minPriceFilterInitialValue, props.maxPriceFilterInitialValue]}
           min={props.minPriceFilterInitialValue}
@@ -25,7 +24,7 @@ export const PriceRangePicker = (props) => {
           <RangeSliderThumb index={1} w="5" h="5" borderWidth="1px" borderColor="gray.200" />
         </RangeSlider>
       ) : (
-        <></>
+        <p> NO VALUES</p>
       )}
     </>
   );
