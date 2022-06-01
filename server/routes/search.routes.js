@@ -12,26 +12,37 @@ const cacheSearch = async (req, res, next) => {
   // const client = await redis.createClient(REDIS_PORT);
   const client = redis.createClient({ url: process.env.REDIS_URL });
 
-  console.log('CONNECTING TO REDIS')
+  console.log("CONNECTING TO REDIS");
+  
   await client.connect();
-  console.log('SUCCESSFULLY CONNECTED TO REDIS')
+  
+  console.log("SUCCESSFULLY CONNECTED TO REDIS");
 
   req.client = client;
   const data = await client.get(amazonSearchQuery);
 
-  console.log('CONNECTED TO REDIS')
+  client.on("connect", function () {
+    console.log("Redis client connected");
+  });
+  client.on("error", function (err) {
+    console.log("Something went wrong " + err);
+  });
+
+  console.log("CONNECTED TO REDIS");
 
   if (data !== null) {
     const parsedData = JSON.parse(data);
 
     const filteredData = parsedData.filter((item) => !!item.prices);
-
+    client.quit();
     res.json(filteredData);
   } else {
     console.log("NOTHING IN CACHE");
+    client.quit();
     next();
   }
 };
+
 
 // let redisClient;
 // if (process.env.REDISCLOUD_URL) {
