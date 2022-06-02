@@ -1,11 +1,8 @@
 const router = require("express").Router();
-require('dotenv/config')
-const stripe = require("stripe")(process.env.STRIPE_SECRET)
+require("dotenv/config");
+const stripe = require("stripe")(process.env.STRIPE_SECRET);
 
 router.post("/create-checkout-session", async (req, res) => {
-
-  console.log('REQ.BODY.ID for STRIPE', req.body.id)
-
   const session = await stripe.checkout.sessions.create({
     line_items: [
       {
@@ -24,7 +21,7 @@ router.post("/create-checkout-session", async (req, res) => {
     cancel_url: `${process.env.ORIGIN}/${req.body.id}?canceled=true`,
   });
 
-  res.json({"url":session.url});
+  res.json({ url: session.url });
 });
 
 module.exports = router;

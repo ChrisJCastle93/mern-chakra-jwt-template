@@ -1,6 +1,5 @@
 const { Schema, model } = require("mongoose");
 
-// TODO: Please make sure you edit the user model to whatever makes sense in this case
 const userSchema = new Schema(
   {
     username: {
@@ -10,7 +9,7 @@ const userSchema = new Schema(
     role: {
       type: String,
       enum: ["ADMIN", "CUSTOMER"],
-      default: "ADMIN" // <-- Change to CUSTOMER after we finished developing.
+      default: "CUSTOMER"
     },
     orders: Array
   },
