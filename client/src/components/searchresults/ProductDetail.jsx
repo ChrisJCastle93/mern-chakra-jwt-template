@@ -111,7 +111,7 @@ function ProductDetail() {
       ) : (
         <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={{ base: 8, md: 10 }} py={{ base: 6, md: 12 }}>
           <Flex>
-            <Image rounded={"md"} alt={"product image"} src={product.main_image.link} fit={"cover"} align={"center"} w={"100%"} h={{ base: "100%", sm: "400px", lg: "500px" }} />
+            <Image rounded={"md"} alt={"product image"} src={product.main_image.link} fit={"contain"} align={"center"} w={"100%"} h={{ base: "100%", sm: "400px", lg: "500px" }} />
           </Flex>
           <Stack spacing={{ base: 6, md: 6 }}>
             <Box as={"header"}>
