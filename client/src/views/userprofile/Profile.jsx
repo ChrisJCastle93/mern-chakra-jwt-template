@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { CartItem } from "../components/cart/CartItem";
-import { cartService } from "../services/localStorage";
+import { CartItem } from "../../components/cart/CartItem";
+import { cartService } from "../../services/localStorage";
 import { Box, Button, Divider, Badge, Heading, Text, useColorModeValue, Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer, useBreakpointValue } from "@chakra-ui/react";
-import { HiPencilAlt } from "react-icons/hi";
-import { CardContent } from "../components/userprofile/CardContent";
-import { CardWithAvatar } from "../components/userprofile/CardWithAvatar";
-import { UserInfo } from "../components/userprofile/UserInfo";
+import { CardContent } from "../../components/userprofile/CardContent";
+import { CardWithAvatar } from "../../components/userprofile/CardWithAvatar";
 import axios from "axios";
 
 export default function Profile(props) {

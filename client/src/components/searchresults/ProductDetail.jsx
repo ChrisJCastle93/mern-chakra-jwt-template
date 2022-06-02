@@ -1,12 +1,18 @@
+// React
 import React from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { cartService } from "../services/localStorage.js";
-import { Box, chakra, Container, Stack, Text, Image, Flex, VStack, Button, Heading, SimpleGrid, StackDivider, Spinner, useColorModeValue, VisuallyHidden, UnorderedList, List, ListItem } from "@chakra-ui/react";
-import { FaInstagram, FaTwitter, FaYoutube, FaHeart } from "react-icons/fa";
-import { MdLocalShipping } from "react-icons/md";
-import { Promos } from "../components/productdetails/Promos";
+import { useParams, useNavigate } from "react-router-dom";
+
+// Services
+import { cartService } from "../../services/localStorage";
+
+// Components
+import { Promos } from "../../components/productdetails/Promos";
+
+// Packages
+import axios from "axios";
+import { Box, Container, Stack, Text, Image, Flex, VStack, Button, Heading, SimpleGrid, Spinner, UnorderedList, ListItem } from "@chakra-ui/react";
+import { FaHeart } from "react-icons/fa";
 
 function ProductDetail() {
   const [product, setProduct] = useState([]);
@@ -26,17 +32,10 @@ function ProductDetail() {
 
     let newCart = [...cart];
 
-    // let cartPrice = 10;
-    // if (product.price) {
-    //   cartPrice = product.price.value;
-    // }
-
     const cartProduct = {
       id: product.asin,
       name: product.title,
       price: priceParam,
-      // price: product.variants[0].price.value,
-      // image: product.variants[0].main_image,
       image: product.main_image.link,
       quantity: 1,
     };
@@ -79,7 +78,6 @@ function ProductDetail() {
 
     cartService.addToLocalStorage("wishlist", newWishlist);
 
-
     setIsWishListed((s) => !s);
 
     navigate("/profile");
@@ -101,7 +99,6 @@ function ProductDetail() {
       .catch((err) => console.log(err));
   }, [productId]);
 
-
   return (
     <Container px={8} maxW={"7xl"}>
       {isLoading ? (
@@ -114,7 +111,7 @@ function ProductDetail() {
       ) : (
         <SimpleGrid columns={{ base: 1, lg: 2 }} spacing={{ base: 8, md: 10 }} py={{ base: 6, md: 12 }}>
           <Flex>
-            <Image rounded={"md"} alt={"product image"} src={product.main_image.link} fit={"cover"} align={"center"} w={"100%"} h={{ base: "100%", sm: "400px", lg: "500px" }} />
+            <Image rounded={"md"} alt={"product image"} src={product.main_image.link} fit={"contain"} align={"center"} w={"100%"} h={{ base: "100%", sm: "400px", lg: "500px" }} />
           </Flex>
           <Stack spacing={{ base: 6, md: 6 }}>
             <Box as={"header"}>

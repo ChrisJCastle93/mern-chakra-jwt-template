@@ -2,8 +2,8 @@ import { AspectRatio, Box, Button, HStack, Spacer, Image, Flex, Skeleton, Stack,
 import { Link } from "react-router-dom";
 
 import * as React from "react";
-import { Rating } from "../components/Rating";
-import { PriceTag } from "../components/cart/PriceTag";
+import { Rating } from "./Rating";
+import { PriceTag } from "../cart/PriceTag";
 
 export const ProductCard = (props) => {
   const { product, rootProps } = props;

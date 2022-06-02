@@ -25,7 +25,9 @@ export const Filters = (props) => {
       <Box>
         <Stack spacing="5">
           <Heading fontSize="sm">Price range</Heading>
-          <PriceRangePicker minPriceFilter={minPriceFilter} maxPriceFilter={maxPriceFilter} updatePriceFilter={updatePriceFilter} maxPriceFilterInitialValue={maxPriceFilterInitialValue} minPriceFilterInitialValue={minPriceFilterInitialValue} />
+          <Box h={10} bg="red">
+            <PriceRangePicker minPriceFilter={minPriceFilter} maxPriceFilter={maxPriceFilter} updatePriceFilter={updatePriceFilter} maxPriceFilterInitialValue={maxPriceFilterInitialValue} minPriceFilterInitialValue={minPriceFilterInitialValue} />
+          </Box>
           {/* <PriceRangePicker defaultValue={[minPriceFilter, maxPriceFilter]} /> */}
           <HStack width="max-content" spacing="2">
             <Input w={100} type="number" fontSize="xs" onChange={(e) => updatePriceFilter("min", e.target.value)} value={minPriceFilter} placeholder="$500" />

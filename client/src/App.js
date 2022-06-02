@@ -1,21 +1,18 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Home from "./components/Home";
+import Home from "./views/homepage/Home";
 import Test from "./components/search/Microphone";
 import SearchContainer from "./components/search/SearchContainer";
-import SearchResults from "./views/SearchResults";
+import SearchResults from "./views/searchresults/SearchResults";
 import { ChakraProvider, Flex, Box, Divider } from "@chakra-ui/react";
 import { useState } from "react";
 import { Signup } from "./views/auth/Signup";
 import { Login } from "./views/auth/Login";
 import { useNavigate } from "react-router-dom";
-import apiService from "./views/services/auth";
+import apiService from "./services/auth";
 import Cart from "./views/cart/Cart";
-import Profile from "./views/Profile";
-import ProductDetail from "./components/ProductDetail";
-import Checkout from "./views/checkout/Checkout";
-import { UpdateUserForm } from "./views/auth/UpdateUserForm";
-import "../src/css/authForm.css";
+import Profile from "./views/userprofile/Profile";
+import ProductDetail from "./components/searchresults/ProductDetail";
 import { Footer } from "./components/footer/Footer";
 import { cartService } from "./services/localStorage";
 import { NavbarOne } from "./components/navbar/NavbarOne";
@@ -52,7 +49,7 @@ function App() {
   }, []);
 
   const logoutHandler = async () => {
-    console.log('logging out')
+    console.log("logging out");
     await apiService.logout();
     setLoggedInUser(null);
     navigate("/");
@@ -76,14 +73,12 @@ function App() {
                 <Route path="/:id" element={<Home loggedInUser={loggedInUser} />} />
                 <Route path="/test" element={<Test />} />
                 <Route path="/cart" element={<Cart loggedInUser={loggedInUser} loginToCheckout={loginToCheckout} />} />
-                <Route path="/profile/edit" element={<UpdateUserForm loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} />} />
                 <Route path="/signup" element={<Signup setLoggedInUser={setLoggedInUser} />} />
                 <Route path="/login" element={<Login cameFromCheckout={cameFromCheckout} setLoggedInUser={setLoggedInUser} />} />
                 <Route path="/profile" element={<Profile loggedInUser={loggedInUser} />} />
                 <Route path="/search" element={<SearchContainer handleSearchResults={handleSearchResults} />} />
                 <Route path="/search/results" element={<SearchResults searchResultsArray={searchResultsArray} />} />
                 <Route path="/search/results/:id/:price" element={<ProductDetail />} />
-                {/* <Route path="/checkout/:id" element={<Checkout loggedInUser={loggedInUser} />} /> */}
               </Routes>
             </Box>
             <Divider />

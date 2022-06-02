@@ -1,13 +1,10 @@
 import React, { useState } from "react";
-import apiService from "../services/auth";
+import apiService from "../../services/auth";
 import { useForm } from "react-hook-form";
 import { useNavigate, NavLink, Link } from "react-router-dom";
-import authLamp from "../../assets/authLamp.png";
-// import "../../css/authForm.css";
 import { FormControl, FormLabel, FormErrorMessage, FormHelperText, Box, Button, Container, Divider, Heading, Input, Stack, Text, useBreakpointValue, Flex, InputGroup } from "@chakra-ui/react";
 import { Logo } from "../../components/navbar/Logo";
 import heroone from "../../assets/heroone.jpg";
-import { Banner } from "../../components/banner/Banner";
 
 export const Signup = (props) => {
   const [errorMessage, setErrorMessage] = useState("");
