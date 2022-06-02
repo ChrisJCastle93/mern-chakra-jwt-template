@@ -4,8 +4,8 @@ const fs = require("fs");
 const axios = require("axios");
 const redis = require("redis");
 
-const redisPort = process.env.REDIS_URL || 6379;
-const client = redis.createClient(redisPort);
+// const redisPort = process.env.REDIS_URL || 6379;
+const client = redis.createClient({ url: process.env.REDIS_URL });
 
 const connectRedis = async () => {
   await client.connect();
