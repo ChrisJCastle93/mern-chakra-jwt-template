@@ -3,32 +3,37 @@ const User = require("../models/User.model");
 const Order = require("../models/Order.model");
 
 router.post("/new", async (req, res) => {
-  const orderDetails = {
-    products: req.body.cartData,
-  };
-
   try {
+    const orderDetails = {
+      products: req.body.cartData,
+    };
     const createdOrder = await Order.create(orderDetails);
-    const foundUser = await User.findByIdAndUpdate(req.body.userId, { $push: { orders: createdOrder._id } }, { new: true });
+    await User.findByIdAndUpdate(req.body.userId, { $push: { orders: createdOrder._id } });
     res.json(createdOrder);
   } catch (err) {
-    console.log(err);
+    next(err);
   }
 });
 
 router.post("/:id/paid", async (req, res) => {
-  const orderId = req.params.id;
-  Order.findOneAndUpdate(orderId, { paid: true }, { new: true })
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
+  try {
+    const orderId = req.params.id;
+    await Order.findOneAndUpdate(orderId, { paid: true }, { new: true });
+  } catch (err) {
+    next(err);
+  }
 });
 
 router.get("/:id", async (req, res) => {
-  const user = await User.findById(req.params.id).populate({
-    path: "orders",
-    model: "Order",
-  });
-  res.json(user.orders);
+  try {
+    const user = await User.findById(req.params.id).populate({
+      path: "orders",
+      model: "Order",
+    });
+    res.json(user.orders);
+  } catch (err) {
+    next(err);
+  }
 });
 
 module.exports = router;
