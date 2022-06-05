@@ -1,13 +1,16 @@
-import { AspectRatio, Box, Button, HStack, Spacer, Image, Flex, Skeleton, Stack, Text, useBreakpointValue, useColorModeValue } from "@chakra-ui/react";
+import * as React from "react";
 import { Link } from "react-router-dom";
 
-import * as React from "react";
 import { Rating } from "./Rating";
 import { PriceTag } from "../cart/PriceTag";
 
+import { AspectRatio, Box, HStack, Image, Skeleton, Stack, Text, useBreakpointValue, useColorModeValue } from "@chakra-ui/react";
+
 export const ProductCard = (props) => {
+
   const { product, rootProps } = props;
   const { title, image, price, rating, ratings_total } = product;
+  
   return (
     <Stack
       border="1px"
@@ -40,7 +43,7 @@ export const ProductCard = (props) => {
           <PriceTag price={price.value} currency={price.currency} />
           <HStack>
             <Rating defaultValue={rating} size="sm" />
-            <Text fontSize="xs" isTruncated color={useColorModeValue("gray.600", "gray.400")}>
+            <Text fontSize="xs" noOfLines={1} color={useColorModeValue("gray.600", "gray.400")}>
               {ratings_total} Reviews
             </Text>
           </HStack>

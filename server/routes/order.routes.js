@@ -15,16 +15,17 @@ router.post("/new", async (req, res) => {
   }
 });
 
-router.post("/:id/paid", async (req, res) => {
+router.post("/:id/paid", async (req, res, next) => {
   try {
     const orderId = req.params.id;
-    await Order.findOneAndUpdate(orderId, { paid: true }, { new: true });
+    const updatedOrder = await Order.findByIdAndUpdate(orderId, { paid: true }, { new: true });
+    console.log(updatedOrder)
   } catch (err) {
     next(err);
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id).populate({
       path: "orders",

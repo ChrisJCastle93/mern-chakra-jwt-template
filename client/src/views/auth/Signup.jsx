@@ -1,15 +1,25 @@
 import React, { useState } from "react";
-import apiService from "../../services/auth";
+import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { useNavigate, NavLink, Link } from "react-router-dom";
-import { FormControl, FormLabel, FormErrorMessage, FormHelperText, Box, Button, Container, Divider, Heading, Input, Stack, Text, useBreakpointValue, Flex, InputGroup } from "@chakra-ui/react";
+
+import apiService from "../../services/auth";
+
 import { Logo } from "../../components/navbar/Logo";
 import heroone from "../../assets/heroone.jpg";
 
+import { FormControl, FormLabel, FormHelperText, Box, Button, Container, Heading, Input, Stack, Text, useBreakpointValue } from "@chakra-ui/react";
+
 export const Signup = (props) => {
+  // state management
+
   const [errorMessage, setErrorMessage] = useState("");
 
+  // variables
+
   const navigate = useNavigate();
+  const variant = useBreakpointValue({ base: false, md: true });
+
+  // react-hook-form
 
   const {
     register,
@@ -17,11 +27,13 @@ export const Signup = (props) => {
     formState: { errors },
   } = useForm();
 
-  const variant = useBreakpointValue({ base: false, md: true });
+  // functions
 
   const onSubmit = async (data) => {
     const res = await apiService.signup(data.username, data.email, data.password);
+
     props.setLoggedInUser(res);
+
     if (res.errorMessage) {
       setErrorMessage("Email or password is incorrect");
       setTimeout(() => {
@@ -143,54 +155,4 @@ export const Signup = (props) => {
       </Box>
     </>
   );
-  // return (
-  //   <container className="auth-container">
-  //     <div className="auth-div">
-  //       <h1 >Become a VIP,<p></p>it's hot</h1>
-  //         <form className="auth-form" onSubmit={handleSubmit(onSubmit)}>
-  //         <label className="label" for="signup">Username:</label>
-  //           <input
-  //             {...register("username", {
-  //               required: "Please enter a valid username",
-  //             })}
-  //             placeholder="Username"
-  //             name="username"
-  //           />
-  //           <p>{errors.username?.message}</p>
-
-  //           <label className="label" for="email">Email:</label>
-  //           <input type="email"
-  //             {...register("email", { required: "Please enter a valid email" })}
-  //             placeholder="Email"
-  //             name="email"
-  //           />
-  //           <p>{errors.email?.message}</p>
-
-  //           <label className="label" for="password">Password:</label>
-  //           <input type="password"
-  //             {...register("password", {
-  //               required: "This is required",
-  //               minLength: {
-  //                 value: 8,
-  //                 message: "Password must be over 8 characters",
-  //               },
-  //             })}
-  //             placeholder="enter a password"
-  //             name="password"
-  //           />
-  //           <p>{errors.password?.message}</p>
-  //           <button className="btn" type="submit">Sign up</button>
-
-  //         </form>
-  //         <div className="auth-nav-div">
-  //           <h3 className="auth-head">Already have an account?</h3>
-  //           <NavLink to="/login" className="auth-btn-2">Log in</NavLink>
-  //         </div>
-  //       </div>
-  //       <div >
-  //         <img className="auth-img" src ={authLamp} alt="lamp-setting" />
-  //       </div>
-
-  //   </container>
-  // );
 };

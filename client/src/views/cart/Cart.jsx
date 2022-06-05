@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Box, Stack, Heading, Flex, HStack, Text } from "@chakra-ui/react";
-import { CartItem } from "../../components/cart/CartItem";
-import { CartOrderSummary } from "../../components/cart/CartOrderSummary";
+
 import axios from "axios";
 import { cartService } from "../../services/localStorage";
+
+import { CartItem } from "../../components/cart/CartItem";
+import { CartOrderSummary } from "../../components/cart/CartOrderSummary";
+
+import { Box, Stack, Heading, Flex, HStack, Text } from "@chakra-ui/react";
 
 export default function Cart(props) {
   let [cartData, setCartData] = useState([]);
@@ -42,11 +45,11 @@ export default function Cart(props) {
     });
 
     try {
+      
       const orderId = await axios.post(`${process.env.REACT_APP_API_URL}/api/order/new`, { cartData, userId });
-
       const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/payments/create-checkout-session`, { cartTotal: totalPrice.toFixed(2), id: orderId.data._id });
-
       window.location.href = res.data.url;
+
     } catch (err) {
       console.log(err);
     }
@@ -102,7 +105,7 @@ export default function Cart(props) {
 
             <Stack spacing="6">
               {cartData.map((item) => (
-                <CartItem key={item.id} {...item} onClickDelete={onClickDelete} onChangeQuantity={onChangeQuantity} isCart/>
+                <CartItem key={item.id} {...item} onClickDelete={onClickDelete} onChangeQuantity={onChangeQuantity} isCart />
               ))}
             </Stack>
           </Stack>

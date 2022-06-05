@@ -1,24 +1,33 @@
 import React, { useState } from "react";
+
 import apiService from "../../services/auth";
-import { useForm } from "react-hook-form";
-import { useNavigate, NavLink, Link } from "react-router-dom";
-import { FormControl, FormLabel, FormErrorMessage, FormHelperText, Box, Button, Container, Divider, Heading, Input, Stack, Text, useBreakpointValue, Flex, InputGroup } from "@chakra-ui/react";
-import { Logo } from "../../components/navbar/Logo";
+
 import heroone from "../../assets/heroone.jpg";
-import { Banner } from "../../components/banner/Banner";
+import { Logo } from "../../components/navbar/Logo";
+
+import { useForm } from "react-hook-form";
+import { useNavigate, Link } from "react-router-dom";
+import { FormControl, FormLabel, FormHelperText, Box, Button, Container, Heading, Input, Stack, Text, useBreakpointValue } from "@chakra-ui/react";
 
 export const Login = (props) => {
-  const navigate = useNavigate();
+  // state management
 
   const [errorMessage, setErrorMessage] = useState("");
 
+  // variables
+
+  const navigate = useNavigate();
   const variant = useBreakpointValue({ base: false, md: true });
+
+  //react-hook-form
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  // functions
 
   const onSubmit = async (e) => {
     const res = await apiService.login(e.username, e.password);

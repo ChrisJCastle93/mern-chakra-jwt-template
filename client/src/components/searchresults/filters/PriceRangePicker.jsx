@@ -2,26 +2,31 @@ import { RangeSlider, RangeSliderFilledTrack, RangeSliderThumb, RangeSliderTrack
 import React from "react";
 
 export const PriceRangePicker = (props) => {
+  const { updatePriceFilter } = props;
+  let defaultValueArr = [props.minPriceFilter, props.maxPriceFilter];
+
   return (
     <>
       {props.minPriceFilterInitialValue !== undefined ? (
-        <RangeSlider
-          defaultValue={[props.minPriceFilterInitialValue, props.maxPriceFilterInitialValue]}
+        <RangeSlider 
+          key={props.maxPriceFilter-props.minPriceFilter}
+          defaultValue={defaultValueArr}
+          // defaultValue={[props.minPriceFilter, props.maxPriceFilter]}
+          // eslint-disable-next-line jsx-a11y/aria-proptypes
+          aria-label={["min", "max"]}
           min={props.minPriceFilterInitialValue}
           max={props.maxPriceFilterInitialValue}
-          onChangeEnd={(e) => {
-            props.updatePriceFilter("min", e[0]);
-            props.updatePriceFilter("max", e[1]);
-          }}
           colorScheme="teal"
-          step={10}
-          aria-label={["minimum price", "maximux price"]}
+          onChangeEnd={(e) => {
+            updatePriceFilter("min", e[0]);
+            updatePriceFilter("max", e[1]);
+          }}
         >
           <RangeSliderTrack>
             <RangeSliderFilledTrack />
           </RangeSliderTrack>
-          <RangeSliderThumb index={0} w="5" h="5" borderWidth="1px" borderColor="gray.200" />
-          <RangeSliderThumb index={1} w="5" h="5" borderWidth="1px" borderColor="gray.200" />
+          <RangeSliderThumb index={0} />
+          <RangeSliderThumb index={1} />
         </RangeSlider>
       ) : (
         <p> NO VALUES</p>

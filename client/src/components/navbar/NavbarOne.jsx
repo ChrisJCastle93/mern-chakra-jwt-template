@@ -1,20 +1,14 @@
-import { Box, Center, Flex, HStack, Text, Button, MenuDivider, Menu, MenuButton, MenuList, MenuGroup, MenuItem, useColorModeValue as mode, VisuallyHidden, useBreakpointValue } from "@chakra-ui/react";
 import * as React from "react";
+import { Link } from "react-router-dom";
+
 import { AiOutlineUser, AiOutlineLogout } from "react-icons/ai";
-import { MdMenu } from "react-icons/md";
-import { RiHeartLine, RiShoppingCartLine } from "react-icons/ri";
-import { CurrencySelect } from "./CurrencySelect";
+import { RiShoppingCartLine } from "react-icons/ri";
 import { Logo } from "./Logo";
 import { CartCount } from "./CartCount";
-import { MobileBottomNav } from "./MobileBottomNav";
 import { NavAction } from "./NavAction";
-import { NavCategoryMenu } from "./NavCategoryMenu";
-import { NavCategorySubmenu } from "./NavCategorySubmenu";
-import { SearchInput } from "./SearchInput";
-import { Link } from "react-router-dom";
-import { cartService } from "../../services/localStorage";
-// import SearchContainer from "../search1/SearchContainer"
 import SearchContainer from "../search/SearchContainer";
+
+import { Box, Flex, HStack, Button, useBreakpointValue } from "@chakra-ui/react";
 
 export const NavbarOne = (props) => {
   const { loggedInUser } = props;
