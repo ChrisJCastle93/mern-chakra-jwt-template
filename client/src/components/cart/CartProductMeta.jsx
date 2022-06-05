@@ -1,5 +1,6 @@
-import { Box, Image, Stack, Text, Center } from "@chakra-ui/react";
 import * as React from "react";
+
+import { Box, Image, Stack, Text, Center } from "@chakra-ui/react";
 
 export const CartProductMeta = (props) => {
   const { image, name, description } = props;

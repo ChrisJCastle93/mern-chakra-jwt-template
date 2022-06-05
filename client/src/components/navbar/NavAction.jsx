@@ -1,18 +1,18 @@
-import { Box, Button, Link, Center, Flex, HStack, Icon, Text, useColorModeValue as mode } from '@chakra-ui/react'
-import * as React from 'react'
+import { Box, Center, Flex, HStack, Icon, Text, useColorModeValue as mode } from "@chakra-ui/react";
+import * as React from "react";
 
 const MobileNavAction = (props) => {
-  const { label, icon, isActive, children } = props
+  const { label, icon, isActive, children } = props;
   return (
     <Center
       height="56px"
       rounded="4"
-      aria-current={isActive ? 'page' : undefined}
+      aria-current={isActive ? "page" : undefined}
       _activeLink={{
-        color: mode('blue.500', 'blue.300'),
+        color: mode("blue.500", "blue.300"),
       }}
       _hover={{
-        bg: mode('gray.100', 'gray.700'),
+        bg: mode("gray.100", "gray.700"),
       }}
     >
       <Flex position="relative" direction="column" align="center" as="button">
@@ -23,11 +23,11 @@ const MobileNavAction = (props) => {
         {children}
       </Flex>
     </Center>
-  )
-}
+  );
+};
 
 const DesktopNavAction = (props) => {
-  const { label, icon } = props
+  const { label, icon } = props;
   return (
     <HStack spacing="2">
       <Text onClick={props.logoutHandler} fontSize="sm" fontWeight="semibold">
@@ -36,9 +36,9 @@ const DesktopNavAction = (props) => {
       <Icon as={icon} />
     </HStack>
   );
-}
+};
 
 export const NavAction = {
   Mobile: MobileNavAction,
   Desktop: DesktopNavAction,
-}
+};

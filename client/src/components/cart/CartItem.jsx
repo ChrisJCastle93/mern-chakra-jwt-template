@@ -1,9 +1,12 @@
-import { CloseButton, Button, Link, Flex, Select, useColorModeValue } from "@chakra-ui/react";
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
+
 import { cartService } from "../../services/localStorage";
+
 import { PriceTag } from "./PriceTag";
 import { CartProductMeta } from "./CartProductMeta";
-import { useNavigate } from "react-router-dom";
+
+import { CloseButton, Button, Link, Flex, Select, useColorModeValue } from "@chakra-ui/react";
 
 const QuantitySelect = (props) => {
   return (
@@ -17,10 +20,13 @@ const QuantitySelect = (props) => {
 };
 
 export const CartItem = (props) => {
+  // state
   const navigate = useNavigate();
 
+  // props deconstruction
   const { name, description, quantity, image, currency, price, onChangeQuantity, onClickDelete, id, isWishList, isCart } = props;
 
+  // cart service - local storage
   const addToCart = (product) => {
     const cart = cartService.getFromLocalStorage("cart");
 
@@ -36,7 +42,8 @@ export const CartItem = (props) => {
 
     let cartUpdated;
 
-    newCart.map((item) => {
+    newCart.forEach((item) => {
+      // eslint-disable-next-line eqeqeq
       if (item.id == cartProduct.id) {
         cartUpdated = true;
       }
@@ -61,7 +68,6 @@ export const CartItem = (props) => {
     >
       <CartProductMeta name={name?.substring(0, 40) + "..."} description={description} image={image} id={id} />
 
-      {/* Desktop */}
       <Flex
         width="full"
         justify="space-between"

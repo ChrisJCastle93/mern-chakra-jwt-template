@@ -1,8 +1,9 @@
-import React from "react";
-import axios from "axios";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Box, Image, Badge, Flex, Heading, Divider, Grid, GridItem } from "@chakra-ui/react";
+
+import axios from "axios";
+
+import { Box, Image, Badge, Heading, Grid, GridItem } from "@chakra-ui/react";
 
 export default function PromoContainer(props) {
   const [listOfPromo, setListOfPromo] = useState([]);
@@ -15,7 +16,7 @@ export default function PromoContainer(props) {
         setListOfPromo(response.data.slice(0, 4));
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [props.queryString]);
 
   return (
     <>
@@ -39,10 +40,10 @@ export default function PromoContainer(props) {
                       {x.title}
                     </Box>
                     <Box pt="4px">
-                      {x.price.value}
                       <Box as="span" color="gray.600" fontSize="sm">
                         {x.price.symbol}
                       </Box>
+                      {x.price.value}
                     </Box>
                   </Box>
                 </Box>

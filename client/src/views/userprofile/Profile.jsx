@@ -1,24 +1,34 @@
 import React, { useState, useEffect } from "react";
-import { CartItem } from "../../components/cart/CartItem";
+
 import { cartService } from "../../services/localStorage";
-import { Box, Button, Divider, Badge, Heading, Text, useColorModeValue, Table, Thead, Tbody, Tfoot, Tr, Th, Td, TableCaption, TableContainer, useBreakpointValue } from "@chakra-ui/react";
-import { CardContent } from "../../components/userprofile/CardContent";
-import { CardWithAvatar } from "../../components/userprofile/CardWithAvatar";
 import axios from "axios";
 
-export default function Profile(props) {
-  const wishlist = cartService.getFromLocalStorage("wishlist");
-  const [wishlistData, setWishlist] = useState(wishlist);
-  const [orderHistory, setOrderHistory] = useState([]);
+import { CartItem } from "../../components/cart/CartItem";
+import { CardContent } from "../../components/userprofile/CardContent";
+import { CardWithAvatar } from "../../components/userprofile/CardWithAvatar";
 
+import { Box, Divider, Badge, Heading, Text, Table, Thead, Tbody, Tr, Th, Td, TableContainer } from "@chakra-ui/react";
+
+export default function Profile(props) {
+  // local storage
+
+  
+  // state
+  
+  const [wishlistData, setWishlist] = useState([]);
+  const [orderHistory, setOrderHistory] = useState([]);
+  
+  // functions
+  
   const onClickDelete = (value) => {
     const copiedWishlist = [...wishlistData];
     const updatedWishlist = copiedWishlist.filter((x) => x.id !== value);
     setWishlist(updatedWishlist);
     cartService.addToLocalStorage("wishlist", updatedWishlist);
   };
-
+  
   useEffect(() => {
+    const wishlist = cartService.getFromLocalStorage("wishlist");
     setWishlist(wishlist);
     axios
       .get(`${process.env.REACT_APP_API_URL}/api/order/${props.loggedInUser._id}`)
@@ -26,6 +36,7 @@ export default function Profile(props) {
         setOrderHistory(res.data);
       })
       .catch((err) => console.log(err));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -72,7 +83,7 @@ export default function Profile(props) {
                             {order.products.map((product, index) => {
                               return (
                                 <Text noOfLines={0} key={index} align="left" fontSize="xs" fontWeight="light">
-                                  <Text isTruncated as="span" fontWeight="medium" fontSize="xs">
+                                  <Text noOfLines={1} as="span" fontWeight="medium" fontSize="xs">
                                     Qty: {product.quantity} -
                                   </Text>
                                   {` ${product.name.substring(0, 30)}...  `}

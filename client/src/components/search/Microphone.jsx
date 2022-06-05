@@ -1,12 +1,17 @@
 import React, { useState } from "react";
+
 import { speechToTextService } from "../../services/speechToText";
+
 import { MicrophoneIcon, StopIcon } from "@heroicons/react/solid";
-import { IconButton, Spinner, Flex } from "@chakra-ui/react";
+
+import { IconButton, Flex } from "@chakra-ui/react";
 
 export default function Microphone(props) {
+  // state
   let [micButtonDisplay, setMicButtonDisplay] = useState("block");
   let [stopButtonDisplay, setStopButtonDisplay] = useState("none");
-  // let [spinnerDisplay, setSpinnerDisplay] = useState("none");
+
+  // microphone recoridng functions
 
   const recordMicrophone = async (e) => {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
@@ -36,8 +41,7 @@ export default function Microphone(props) {
     stopButton.addEventListener("click", () => {
       mediaRecorder.stop();
       setStopButtonDisplay("none");
-      // setSpinnerDisplay("block");
-      props.setIsLoading(true)
+      props.setIsLoading(true);
     });
 
     mediaRecorder.start();
@@ -48,13 +52,17 @@ export default function Microphone(props) {
     formData.append("file", file);
 
     const result = await speechToTextService.createNewSearch(formData);
-    // setSpinnerDisplay("none");
     props.setIsLoading(false);
     setMicButtonDisplay("block");
-
+    
     const sanitizedResult = result.data.replaceAll('"', "");
-    props.searchHandler(sanitizedResult);
-    props.updateSpeechDone();
+    if(sanitizedResult === "Sorry, I couldn't understand you. Please try again.") {
+      props.setIsLoading(false);
+      props.searchHandler(sanitizedResult);
+    } else {
+      props.searchHandler(sanitizedResult);
+      props.updateSpeechDone();
+    }
   };
 
   return (
@@ -62,9 +70,6 @@ export default function Microphone(props) {
       <form onSubmit={props.handleSubmit}>
         <IconButton borderLeftRadius="0" p={2} icon={<StopIcon />} display={stopButtonDisplay} id="stop"></IconButton>
       </form>
-
-      {/* <Spinner thickness="2px" speed="1s" color="blue.500" display={spinnerDisplay} m={2} p={2} /> */}
-
       <IconButton borderLeftRadius="0" p={2} icon={<MicrophoneIcon />} display={micButtonDisplay} onClick={(e) => recordMicrophone(e)}></IconButton>
     </Flex>
   );

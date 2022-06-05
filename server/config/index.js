@@ -4,6 +4,8 @@ const logger = require("morgan");
 
 const cookieParser = require("cookie-parser");
 
+const fileUpload = require("express-fileupload");
+
 const cors = require("cors");
 
 const session = require("express-session");
@@ -13,13 +15,12 @@ const MongoStore = require("connect-mongo");
 const MONGO_URI = require("../utils/consts");
 
 module.exports = async (app) => {
-
   app.set("trust proxy", 1);
 
   app.use(
     cors({
       credentials: true,
-      origin: process.env.ORIGIN || "http://localhost:3000"
+      origin: process.env.ORIGIN || "http://localhost:3000",
     })
   );
 
@@ -27,6 +28,7 @@ module.exports = async (app) => {
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));
   app.use(cookieParser());
+  app.use(fileUpload());
 
   app.use(
     session({

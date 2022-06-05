@@ -15,6 +15,7 @@ import { Box, Container, Stack, Text, Image, Flex, VStack, Button, Heading, Simp
 import { FaHeart } from "react-icons/fa";
 
 function ProductDetail() {
+  // State
   const [product, setProduct] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isWishListed, setIsWishListed] = useState(false);
@@ -23,10 +24,7 @@ function ProductDetail() {
   const priceParam = params.price;
   const navigate = useNavigate();
 
-  const resetCart = () => {
-    cartService.addToLocalStorage("cart", []);
-  };
-
+  // Add to Cart Service
   const addToCart = (product) => {
     const cart = cartService.getFromLocalStorage("cart");
 
@@ -42,7 +40,8 @@ function ProductDetail() {
 
     let cartUpdated;
 
-    newCart.map((item) => {
+    newCart.forEach((item) => {
+      // eslint-disable-next-line eqeqeq
       if (item.id == cartProduct.id) {
         item.quantity++;
         cartService.addToLocalStorage("cart", newCart);
@@ -57,6 +56,8 @@ function ProductDetail() {
 
     navigate("/cart");
   };
+
+  // Add to Wishlist Service
 
   const addToWishlist = (product) => {
     const wishlist = cartService.getFromLocalStorage("wishlist");
@@ -82,6 +83,8 @@ function ProductDetail() {
 
     navigate("/profile");
   };
+
+  // ONload, get Wishlist and Cart from local Storage, searchAmazon API for product in URL.
 
   useEffect(() => {
     const wishlist = cartService.getFromLocalStorage("wishlist");
@@ -119,7 +122,7 @@ function ProductDetail() {
                 {product.title}
               </Heading>
               <Text color="gray.900" fontWeight={800} my={8} fontSize={"3xl"}>
-                {priceParam} $
+                $ {priceParam}
               </Text>
             </Box>
 
@@ -133,23 +136,27 @@ function ProductDetail() {
                   <></>
                 )}
               </VStack>
-              <Box>
-                <Text fontSize={{ base: "16px", lg: "18px" }} color="teal" fontWeight={"500"} my={"8"}>
-                  Features
-                </Text>
+              {product.feature_bullets ? (
+                <Box>
+                  <Text fontSize={{ base: "16px", lg: "18px" }} color="teal" fontWeight={"500"} my={"8"}>
+                    Features
+                  </Text>
 
-                <SimpleGrid mb={4} columns={{ base: 1, md: 1 }} spacing={10}>
-                  <UnorderedList spacing={2}>
-                    {product.feature_bullets.map((feature, index) => {
-                      return (
-                        <ListItem color="gray.500" fontWeight={"300"} key={index}>
-                          {feature}
-                        </ListItem>
-                      );
-                    })}
-                  </UnorderedList>
-                </SimpleGrid>
-              </Box>
+                  <SimpleGrid mb={4} columns={{ base: 1, md: 1 }} spacing={10}>
+                    <UnorderedList spacing={2}>
+                      {product.feature_bullets.map((feature, index) => {
+                        return (
+                          <ListItem color="gray.500" fontWeight={"300"} key={index}>
+                            {feature}
+                          </ListItem>
+                        );
+                      })}
+                    </UnorderedList>
+                  </SimpleGrid>
+                </Box>
+              ) : (
+                <></>
+              )}
             </Stack>
 
             <Button
@@ -159,8 +166,6 @@ function ProductDetail() {
               mt={8}
               size={"lg"}
               py={"7"}
-              // bg="gray.900"
-              // bg="teal"
               colorScheme="teal"
               textTransform={"uppercase"}
               _hover={{
@@ -208,11 +213,6 @@ function ProductDetail() {
               </Button>
             )}
             <Promos />
-            {/* <Button onClick={() => resetCart()}>Reset Cart </Button> */}
-            {/* <Stack direction="row" alignItems="center" justifyContent={"center"}>
-              <MdLocalShipping />
-              <Text>2-3 business days delivery</Text>
-            </Stack> */}
           </Stack>
         </SimpleGrid>
       )}

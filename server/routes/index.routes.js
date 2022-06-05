@@ -1,4 +1,5 @@
 const router = require("express").Router();
+
 const authRoutes = require("./auth.routes");
 const paymentRoutes = require("./payment.routes");
 const speechRoutes = require("./speech.routes");
@@ -11,6 +12,5 @@ router.use("/payments", paymentRoutes);
 router.use("/convertspeech", speechRoutes);
 router.use("/search", searchRoutes);
 router.use("/order", orderRoutes);
-router.use("/chat", chatRoutes);
 
 module.exports = router;

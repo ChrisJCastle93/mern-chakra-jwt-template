@@ -1,5 +1,6 @@
-import { Circle, useColorModeValue as mode } from '@chakra-ui/react'
 import * as React from 'react'
+
+import { Circle, useColorModeValue as mode } from '@chakra-ui/react'
 
 export const CartCount = (props) => (
   <Circle
