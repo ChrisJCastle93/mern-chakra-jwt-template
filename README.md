@@ -1,7 +1,7 @@
 # Ask Commerce - (May 2022)
 A full stack MERN e-commerce site that allows users to search by voice using IBM Watson.
 
-- Live demo [_here_](www.askcommerce.co)
+- Live demo [_here_](https://www.askcommerce.co)
 
 ## General Information
 
@@ -31,7 +31,9 @@ I built this in around two weeks as part of Ironhack's part-time Web Development
 - Vercel (deployment)
 
 ## Usage
-You can run this app after cloning by using `npm start`
+- You can run the client after by using `npm start`
+- You can run the server by using `npm run dev`
+- Deploy to Heroku using `git subtree push --prefix server heroku main`
 
 ## Project Status
 Project is: _complete_
@@ -41,6 +43,7 @@ Project is: _complete_
 - **Performance Optimization**: As noted above, some elements of the app run slow - I'd look to optimize the performance with caching likely common search terms or top products.
 - **Testing**: This project didn't follow TTD principles, so if I was to expand the app I'd follow TTD using Jest for the new features.
 - **SEO Optimization**: I could do more in terms of adding alt tags, meta descriptions etc
+- **Cross Browser Compatibility**: The voice to text functionality does not work on Safari due to the limited filetypes supported by the media recorder. To get it to work, I would need to find an MP4 to Webm npm package and utilise it in the backend to send the voice clip to IBM for transcription.
 
 ## Contact
 Feel free to [_contact_](mailto:chrisjcastle93@gmail.com) me

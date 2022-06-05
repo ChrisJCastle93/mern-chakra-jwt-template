@@ -1,16 +1,23 @@
-import { Center, HStack, Box, Flex, Spinner } from "@chakra-ui/react";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import SearchBar from "./SearchBar";
-import Microphone from "./Microphone";
 import { useNavigate } from "react-router-dom";
 
+import axios from "axios";
+
+import SearchBar from "./SearchBar";
+import Microphone from "./Microphone";
+
+import { Box, Flex, Spinner } from "@chakra-ui/react";
+
 export default function SearchContainer(props) {
+  // state
   let [searchTerm, setSearchTerm] = useState("");
   let [speechDone, setSpeechDone] = useState(false);
   let [isLoading, setIsLoading] = useState(false);
 
+  // router
   const navigate = useNavigate();
+
+  // functions for pass down and click handlers
 
   const searchHandler = (value) => {
     setSearchTerm(value);
@@ -22,14 +29,6 @@ export default function SearchContainer(props) {
     }
     searchAmazon();
   };
-
-  useEffect(() => {
-    if (speechDone) {
-      searchAmazon();
-      setSpeechDone(false);
-    }
-  }, [speechDone]);
-
 
   const searchAmazon = async () => {
     setIsLoading(true);
@@ -43,6 +42,14 @@ export default function SearchContainer(props) {
   const updateSpeechDone = () => {
     setSpeechDone(true);
   };
+
+  useEffect(() => {
+    if (speechDone) {
+      searchAmazon();
+      setSpeechDone(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [speechDone]);
 
   return (
     <Flex flex="1" width="90%" my={2}>

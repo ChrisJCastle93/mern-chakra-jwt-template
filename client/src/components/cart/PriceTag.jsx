@@ -1,8 +1,9 @@
-import { HStack, Text } from "@chakra-ui/react";
 import * as React from "react";
 
+import { HStack, Text } from "@chakra-ui/react";
+
 export function formatPrice(value, opts = {}) {
-  const { locale = "de-DE", currency = "EUR" } = opts;
+  const { locale = "en-US", currency = "USD" } = opts;
   const formatter = new Intl.NumberFormat(locale, {
     currency,
     style: "currency",
@@ -27,9 +28,8 @@ export const PriceTag = (props) => {
 const Price = (props) => {
   const { children, textProps } = props;
   return (
-    <Text as="span" fontWeight="bold" color="gray.700" {...textProps} >
+    <Text as="span" fontWeight="bold" color="gray.700" {...textProps}>
       {children}
     </Text>
   );
 };
-

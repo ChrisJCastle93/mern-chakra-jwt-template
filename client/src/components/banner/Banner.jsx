@@ -1,16 +1,17 @@
-import { Box, Button, CloseButton, Container, Icon, Square, Stack, Text, useBreakpointValue } from "@chakra-ui/react";
 import * as React from "react";
 import { FiInfo } from "react-icons/fi";
+import { Box, Container, Icon, Square, Stack, Text, useBreakpointValue } from "@chakra-ui/react";
 
 export const Banner = (props) => {
   const { message, status } = props;
 
-  const bgColor = status == "success" ? "green.100" : "red.100";
+  const bgColor = status === "success" ? "green.100" : "red.100";
 
   const isMobile = useBreakpointValue({
     base: true,
     md: false,
   });
+
   return (
     <Container position="absolute" height="fit-content" as="section">
       <Box
@@ -30,8 +31,8 @@ export const Banner = (props) => {
           }}
           justify="space-between"
           spacing={{
-            base: "3",
-            md: "2",
+            base: "1",
+            md: "1",
           }}
           pb="0.5"
         >
@@ -47,8 +48,8 @@ export const Banner = (props) => {
             }}
           >
             {!isMobile && (
-              <Square size="12" bg="bg-accent-subtle" borderRadius="md">
-                <Icon as={FiInfo} boxSize="6" />
+              <Square size="8" bg="bg-accent-subtle" borderRadius="md">
+                <Icon as={FiInfo} boxSize="4" />
               </Square>
             )}
             <Stack
@@ -70,20 +71,6 @@ export const Banner = (props) => {
               </Text>
             </Stack>
           </Stack>
-          <Stack
-            direction={{
-              base: "column",
-              sm: "row",
-            }}
-            spacing={{
-              base: "3",
-              sm: "2",
-            }}
-            align={{
-              base: "stretch",
-              sm: "center",
-            }}
-          ></Stack>
         </Stack>
       </Box>
     </Container>

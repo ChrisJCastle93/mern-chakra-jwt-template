@@ -1,12 +1,16 @@
-import { Button, Flex, Heading, Stack, Text } from "@chakra-ui/react";
 import * as React from "react";
-import { FaArrowRight } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+
+import { FaArrowRight } from "react-icons/fa";
 import { formatPrice } from "./PriceTag";
 
+import { Button, Flex, Heading, Stack, Text } from "@chakra-ui/react";
+
 export const CartOrderSummary = (props) => {
+  // props deconstruction
   let { cartData, loggedInUser } = props;
 
+  // establish variables
   let totalPrice = 0;
 
   cartData.forEach((item) => {
@@ -14,11 +18,13 @@ export const CartOrderSummary = (props) => {
     totalPrice += itemTotal;
   });
 
-  const navigate = useNavigate()
+  // router
+  const navigate = useNavigate();
 
+  // click handler
   const loginRedirect = () => {
-    props.loginToCheckout()
-    navigate('/login')
+    props.loginToCheckout();
+    navigate("/login");
   };
 
   return (
@@ -34,7 +40,6 @@ export const CartOrderSummary = (props) => {
           </Text>
         </Flex>
       </Stack>
-      {/* <Text> Logged in User is: {loggedInUser._id} </Text> */}
       {loggedInUser ? (
         <Button onClick={(e) => props.handleSubmit(e, loggedInUser._id)} colorScheme="teal" size="lg" fontSize="md" rightIcon={<FaArrowRight />}>
           Checkout

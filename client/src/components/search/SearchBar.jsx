@@ -1,6 +1,8 @@
 import React from "react";
-import { Icon, Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
+
 import { RiSearchLine } from "react-icons/ri";
+
+import { Icon, Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
 
 export default function SearchBar(props) {
   const handleChange = (e) => {

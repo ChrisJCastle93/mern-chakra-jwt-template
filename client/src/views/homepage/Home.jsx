@@ -1,15 +1,20 @@
-import PromoContainer from "../../components/homepage/PromoContainer";
-import { Box, Heading, Text, Flex } from "@chakra-ui/react";
-import heroone from "../../assets/heroone.jpg";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import { Banner } from "../../components/banner/Banner";
+
 import axios from "axios";
 
+import PromoContainer from "../../components/homepage/PromoContainer";
+import heroone from "../../assets/heroone.jpg";
+import { useParams } from "react-router-dom";
+import { Banner } from "../../components/banner/Banner";
+
+import { Box, Heading, Text, Flex } from "@chakra-ui/react";
+
 function Home(props) {
+  // state
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState("");
 
+  //router
   let { id } = useParams();
 
   useEffect(() => {
@@ -33,12 +38,12 @@ function Home(props) {
         setMessage("");
       }, 3000);
     }
-  }, []);
+  }, [id]);
 
   return (
     <>
       {message ? (
-        <Flex width="100%" justify="center">
+        <Flex justify="center">
           <Banner message={message} status={status} />
         </Flex>
       ) : (
