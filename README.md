@@ -1,7 +1,7 @@
 # Ask Commerce - (May 2022)
 A full stack MERN e-commerce site that allows users to search by voice using IBM Watson.
 
-- Live demo [_here_](www.askcommerce.co)
+- Live demo [_here_](https://www.askcommerce.co)
 
 ## General Information
 
