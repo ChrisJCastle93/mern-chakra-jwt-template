@@ -2,14 +2,18 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
-import apiService from "../../services/auth";
+import authService from "../../services/auth";
 
-import { Logo } from "../../components/navbar/Logo";
+import { Logo } from "../../components/logo/Logo";
 import heroone from "../../assets/heroone.jpg";
 
 import { FormControl, FormLabel, FormHelperText, Box, Button, Container, Heading, Input, Stack, Text, useBreakpointValue } from "@chakra-ui/react";
 
 export const Signup = (props) => {
+  // props
+
+  const { setLoggedInUser } = props;
+
   // state management
 
   const [errorMessage, setErrorMessage] = useState("");
@@ -30,28 +34,23 @@ export const Signup = (props) => {
   // functions
 
   const onSubmit = async (data) => {
-    const res = await apiService.signup(data.username, data.email, data.password);
+    const authResponse = await authService.signup(data.username, data.email, data.password);
 
-    props.setLoggedInUser(res);
-
-    if (res.errorMessage) {
+    if (authResponse.errorMessage) {
       setErrorMessage("Email or password is incorrect");
       setTimeout(() => {
         setErrorMessage("");
       }, 4000);
     } else {
-      await props.setLoggedInUser(res);
-      if (props.cameFromCheckout) {
-        navigate("/cart");
-      } else {
-        navigate("/");
-      }
+      setLoggedInUser(authResponse);
+      navigate("/");
     }
   };
 
   return (
     <>
       <Box
+        w="100%"
         bgImage={heroone}
         bgSize="cover"
         bgRepeat="no-repeat"
@@ -136,7 +135,7 @@ export const Signup = (props) => {
                       autoComplete="current-password"
                     />
                     {errors.password ? <FormHelperText my={2}>{errors.password.message}</FormHelperText> : <></>}
-                    <Button mt={4} type="submit" colorScheme="teal" w="full">
+                    <Button mt={4} type="submit" colorScheme="brand" w="full">
                       Signup
                     </Button>
                   </FormControl>
@@ -144,7 +143,7 @@ export const Signup = (props) => {
               </Stack>
               <Link to="/login">
                 <Stack spacing="0.5" align="center">
-                  <Button variant="link" colorScheme="teal" size="sm">
+                  <Button variant="link" colorScheme="brand" size="sm">
                     Already have an account
                   </Button>
                 </Stack>

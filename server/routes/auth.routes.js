@@ -14,6 +14,8 @@ router.get("/loggedin", (req, res) => {
   res.json(req.user);
 });
 
+
+
 router.post("/signup", isLoggedOut, (req, res) => {
   const { username, password } = req.body;
 
@@ -59,6 +61,9 @@ router.post("/signup", isLoggedOut, (req, res) => {
   });
 });
 
+
+
+
 router.post("/login", isLoggedOut, (req, res, next) => {
   const { username, password } = req.body;
 
@@ -92,6 +97,8 @@ router.post("/login", isLoggedOut, (req, res, next) => {
     });
 });
 
+
+
 router.delete("/logout", (req, res) => {
   req.session.destroy((err) => {
     if (err) {
@@ -101,25 +108,6 @@ router.delete("/logout", (req, res) => {
   });
 });
 
-router.post("/profile/edit", isLoggedIn, (req, res, next) => {
-  const { username, password, id } = req.body;
-  User.findByIdAndUpdate(id, { username: username }, { new: true })
-    .then((user) => {
-      bcrypt.compare(password, user.password).then((isSamePassword) => {
-        if (isSamePassword) {
-          return res.status(400).json({ errorMessage: "Please provide a valid password." });
-        }
-        req.session.user = user;
-        return res.json(user);
-      });
-    })
-    .then((newthing) => {
-      console.log("newthing", newthing);
-    })
 
-    .catch((err) => {
-      next(err);
-    });
-});
 
 module.exports = router;

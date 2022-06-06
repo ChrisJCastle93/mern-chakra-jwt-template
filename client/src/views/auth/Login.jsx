@@ -1,15 +1,20 @@
 import React, { useState } from "react";
 
-import apiService from "../../services/auth";
+import authService from "../../services/auth";
 
 import heroone from "../../assets/heroone.jpg";
-import { Logo } from "../../components/navbar/Logo";
+import { Logo } from "../../components/logo/Logo";
 
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import { FormControl, FormLabel, FormHelperText, Box, Button, Container, Heading, Input, Stack, Text, useBreakpointValue } from "@chakra-ui/react";
 
 export const Login = (props) => {
+
+  // props
+
+  const { setLoggedInUser } = props
+
   // state management
 
   const [errorMessage, setErrorMessage] = useState("");
@@ -29,22 +34,17 @@ export const Login = (props) => {
 
   // functions
 
-  const onSubmit = async (e) => {
-    const res = await apiService.login(e.username, e.password);
-    console.log(res);
+  const onSubmit = async (data) => {
+    const authResponse = await authService.login(data.username, data.password);
 
-    if (res.errorMessage) {
+    if (authResponse.errorMessage) {
       setErrorMessage("Email or password is incorrect");
       setTimeout(() => {
         setErrorMessage("");
       }, 4000);
     } else {
-      await props.setLoggedInUser(res);
-      if (props.cameFromCheckout) {
-        navigate("/cart");
-      } else {
-        navigate("/profile");
-      }
+      setLoggedInUser(authResponse);
+      navigate("/");
     }
   };
 
@@ -52,6 +52,7 @@ export const Login = (props) => {
     <>
       <Box
         bgImage={heroone}
+        w="100%"
         bgSize="cover"
         bgRepeat="no-repeat"
         py={{
@@ -130,7 +131,7 @@ export const Login = (props) => {
                       autoComplete="current-password"
                     />
                     {errors.password ? <FormHelperText my={2}>{errors.password.message}</FormHelperText> : <></>}
-                    <Button mt={4} type="submit" colorScheme="teal" w="full">
+                    <Button mt={4} type="submit" colorScheme="brand" w="full">
                       Login
                     </Button>
                   </FormControl>
@@ -138,7 +139,7 @@ export const Login = (props) => {
               </Stack>
               <Link to="/signup">
                 <Stack spacing="0.5" align="center">
-                  <Button variant="link" colorScheme="teal" size="sm">
+                  <Button variant="link" colorScheme="brand" size="sm">
                     Create an account
                   </Button>
                 </Stack>

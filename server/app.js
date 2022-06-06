@@ -7,8 +7,10 @@ const app = express();
 
 require("./config")(app);
 
-const allRoutes = require("./routes/index.routes");
-app.use("/api", allRoutes);
+const indexRoutes = require("./routes/index.routes");
+app.use("/api", indexRoutes);
+const authRoutes = require("./routes/auth.routes");
+app.use("/api/auth", authRoutes);
 
 require("./error-handling")(app);
 

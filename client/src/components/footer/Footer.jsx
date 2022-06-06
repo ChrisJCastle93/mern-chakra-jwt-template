@@ -1,13 +1,14 @@
 import * as React from "react";
 
 import { FaTwitter } from "react-icons/fa";
-import { Logo } from "./Logo";
+import { Logo } from "../logo/Logo";
 
 import { Flex, Container, IconButton, Stack, Text } from "@chakra-ui/react";
 
 export const Footer = () => (
   <Container
-    maxW="8xl"
+    maxW="90%"
+    mx="auto"
     as="footer"
     role="contentinfo"
     py={{
@@ -24,7 +25,7 @@ export const Footer = () => (
       <Stack justify="space-between" direction="row" align="center">
         <Logo />
         <Flex align="center">
-          <IconButton as="span" bg="white" color="teal" aria-label="Twitter" icon={<FaTwitter />} />
+          <IconButton as="span" bg="white" color="brand.500" aria-label="Twitter" icon={<FaTwitter />} />
           <Text fontSize="xs" color="gray.500" fontWeight="semibold" as="a" href="http://www.twitter.com/chrisjcastle">
             Chris Castle
           </Text>
