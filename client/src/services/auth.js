@@ -14,23 +14,9 @@ class auth {
         }
       )
       .then((response) => {
-        return response.data;
-      })
-      .catch((error) => {
-        return error.response.data;
-      });
-  };
-
-  update = (username, password, id) => {
-    return axios
-      .post(
-        `${this.baseUrl}/api/auth/profile/edit`,
-        { username, password, id },
-        {
-          withCredentials: true,
+        if (response.data.token) {
+          localStorage.setItem("user", JSON.stringify(response.data));
         }
-      )
-      .then((response) => {
         return response.data;
       })
       .catch((error) => {
@@ -48,6 +34,9 @@ class auth {
         }
       )
       .then((response) => {
+        if (response.data.token) {
+          localStorage.setItem("user", JSON.stringify(response.data));
+        }
         return response.data;
       })
       .catch((error) => {
@@ -56,20 +45,11 @@ class auth {
   };
 
   logout = () => {
-    return axios
-      .delete(`${this.baseUrl}/api/auth/logout`, { withCredentials: true })
-      .then((response) => {
-        return response.data;
-      })
-      .catch((error) => {
-        return error.response.data;
-      });
+    localStorage.removeItem("user");
   };
 
   isLoggedIn = () => {
-    return axios.get(`${this.baseUrl}/api/auth/loggedin`, {
-      withCredentials: true,
-    });
+    return JSON.parse(localStorage.getItem("user"));
   };
 }
 

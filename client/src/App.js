@@ -29,10 +29,19 @@ function App() {
   React.useEffect(() => {
     const fetchUser = async () => {
       const res = await authService.isLoggedIn();
-      setLoggedInUser(res.data);
+      setLoggedInUser(res);
       setLoading(false);
     };
     fetchUser();
+    // const authHeaders = authHeader();
+    // axios
+    //   .get(`${process.env.REACT_APP_API_URL}/api/auth/me`, {
+    //     headers: {
+    //       Authorization: authHeaders,
+    //     },
+    //   })
+    //   .then((res) => console.log(res.data))
+    //   .catch((err) => console.log(err));
   }, []);
 
   return (
