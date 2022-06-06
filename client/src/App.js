@@ -16,9 +16,12 @@ function App() {
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  console.log(loggedInUser)
+
   const navigate = useNavigate();
 
   const logoutHandler = async () => {
+    console.log('CLICKED LOGOUT HANDLER')
     await authService.logout();
     setLoggedInUser(null);
     navigate("/");
@@ -33,15 +36,6 @@ function App() {
       setLoading(false);
     };
     fetchUser();
-    // const authHeaders = authHeader();
-    // axios
-    //   .get(`${process.env.REACT_APP_API_URL}/api/auth/me`, {
-    //     headers: {
-    //       Authorization: authHeaders,
-    //     },
-    //   })
-    //   .then((res) => console.log(res.data))
-    //   .catch((err) => console.log(err));
   }, []);
 
   return (
