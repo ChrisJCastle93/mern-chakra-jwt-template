@@ -1,33 +1,40 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 
-import { AiOutlineUser, AiOutlineLogout } from "react-icons/ai";
+import { AiOutlineUser } from "react-icons/ai";
 import { Logo } from "../logo/Logo";
 import { NavAction } from "./NavAction";
+
+import { googleLogout } from "@react-oauth/google";
 
 import { Box, Flex, HStack, Button, useBreakpointValue } from "@chakra-ui/react";
 
 export const Navbar = (props) => {
-  const { loggedInUser } = props;
+  const { loggedInUser, logoutHandler } = props;
   const variant = useBreakpointValue({ base: false, md: true });
+
+  const logout = () => {
+    googleLogout();
+    logoutHandler();
+  };
 
   return (
     <Box w="90%" mx="auto" borderBottom="1px" borderColor="gray.100">
       {!variant ? (
         <Flex py={2} direction="column" align="center">
-          <Flex justify="space-around" align="center" width="100%">
+          <Flex justify="space-between" align="center" width="100%">
+            <Link to="/">
+              <Logo />
+            </Link>
             {loggedInUser ? (
-              <Link to="#">
-                <NavAction.Desktop label="Logout" {...props} icon={AiOutlineLogout} />
-              </Link>
+              <Button onClick={logout} colorScheme="brand">
+                Logout
+              </Button>
             ) : (
               <Link to="/login">
                 <NavAction.Desktop label="Login" icon={AiOutlineUser} />
               </Link>
             )}
-            <Link to="/">
-              <Logo />
-            </Link>
           </Flex>
         </Flex>
       ) : (
@@ -38,11 +45,9 @@ export const Navbar = (props) => {
             </Link>
             <HStack mx={4} justify="flex-end" flexShrink={0}>
               {loggedInUser ? (
-                <Link to="#">
-                  <Button onClick={props.logoutHandler}>
-                    <NavAction.Desktop label="Logout" {...props} icon={AiOutlineLogout} />
-                  </Button>
-                </Link>
+                <Button onClick={logout} colorScheme="brand">
+                  Logout
+                </Button>
               ) : (
                 <Link to="/login">
                   <NavAction.Desktop label="Login" icon={AiOutlineUser} />

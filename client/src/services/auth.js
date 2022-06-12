@@ -44,6 +44,26 @@ class auth {
       });
   };
 
+  googleAuth = (email, username) => {
+    return axios
+      .post(
+        `${this.baseUrl}/api/auth/googleAuth`,
+        { email, username },
+        {
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        if (response.data.token) {
+          localStorage.setItem("user", JSON.stringify(response.data));
+        }
+        return response.data;
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+      });
+  };
+
   logout = () => {
     localStorage.removeItem("user");
   };

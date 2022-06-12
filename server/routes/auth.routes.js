@@ -7,23 +7,16 @@ const saltRounds = 10;
 
 const User = require("../models/User.model");
 
-const isLoggedOut = require("../middleware/isLoggedOut");
-const isLoggedIn = require("../middleware/isLoggedIn");
-
-const jwt = require("jsonwebtoken");
 const isAuth = require("../middleware/auth.js");
 
-// put id in payload
-function generateJwtToken(id) {
-  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "30d" });
-}
+const generateJwtToken = require("../utils/generateJwtToken");
 
 router.get("/loggedin", (req, res) => {
   res.json(req.user);
 });
 
-router.post("/signup", isLoggedOut, (req, res) => {
-  const { username, password } = req.body;
+router.post("/signup", (req, res) => {
+  const { username, email, password } = req.body;
 
   if (!username) {
     return res.status(400).json({ errorMessage: "Please provide your username." });
@@ -35,9 +28,9 @@ router.post("/signup", isLoggedOut, (req, res) => {
     });
   }
 
-  User.findOne({ username }).then((found) => {
+  User.findOne({ email }).then((found) => {
     if (found) {
-      return res.status(400).json({ errorMessage: "Username already taken." });
+      return res.status(400).json({ errorMessage: "Email already exists. Sign in with your username and password, or Google." });
     }
 
     return bcrypt
@@ -46,6 +39,7 @@ router.post("/signup", isLoggedOut, (req, res) => {
       .then((hashedPassword) => {
         return User.create({
           username,
+          email,
           password: hashedPassword,
         });
       })
@@ -66,7 +60,7 @@ router.post("/signup", isLoggedOut, (req, res) => {
   });
 });
 
-router.post("/login", isLoggedOut, (req, res, next) => {
+router.post("/login", (req, res, next) => {
   const { username, password } = req.body;
 
   if (!username) {
@@ -101,6 +95,33 @@ router.post("/login", isLoggedOut, (req, res, next) => {
 router.get("/me", isAuth, async (req, res, next) => {
   const { _id, username, email } = await User.findById(req.user.id);
   res.status(200).json({ id: _id, username, email });
+});
+
+// GOOGLE REACT ROUTES
+
+router.post("/googleAuth", (req, res, next) => {
+  const { email, username } = req.body;
+
+  User.findOne({ email })
+    .then((user) => {
+      if (!user) {
+        return User.create({
+          email,
+          username,
+        })
+          .then((user) => {
+            res.status(201).json({ _id: user.id, username: user.username, email: user.email, token: generateJwtToken(user._id) });
+          })
+          .catch((err) => {
+            next(err);
+          });
+      } else {
+        res.status(201).json({ _id: user.id, username: user.username, email: user.email, token: generateJwtToken(user._id) });
+      }
+    })
+    .catch((err) => {
+      next(err);
+    });
 });
 
 module.exports = router;

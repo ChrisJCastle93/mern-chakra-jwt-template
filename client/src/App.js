@@ -33,15 +33,6 @@ function App() {
       setLoading(false);
     };
     fetchUser();
-    // const authHeaders = authHeader();
-    // axios
-    //   .get(`${process.env.REACT_APP_API_URL}/api/auth/me`, {
-    //     headers: {
-    //       Authorization: authHeaders,
-    //     },
-    //   })
-    //   .then((res) => console.log(res.data))
-    //   .catch((err) => console.log(err));
   }, []);
 
   return (
