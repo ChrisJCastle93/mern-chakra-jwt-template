@@ -9,8 +9,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import { FormControl, FormLabel, FormHelperText, Box, Button, Container, Heading, Input, Stack, Text, useBreakpointValue } from "@chakra-ui/react";
 
-import LoginGoogle from "../../google/LoginGoogle";
-// import LogoutGoogle from "../../google/LogoutGoogle";
+import LoginGoogle from "../../components/google/LoginGoogle";
 
 export const Login = (props) => {
 
@@ -141,8 +140,7 @@ export const Login = (props) => {
                 </form>
               </Stack>
               <Box>
-                <LoginGoogle setLoggedInUser={setLoggedInUser} />
-                {/* <LogoutGoogle /> */}
+                <LoginGoogle setErrorMessage={setErrorMessage} setLoggedInUser={setLoggedInUser} />
               </Box>
               <Link to="/signup">
                 <Stack spacing="0.5" align="center">

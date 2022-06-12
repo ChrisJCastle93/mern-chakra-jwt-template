@@ -6,6 +6,7 @@ import authService from "../../services/auth";
 
 import { Logo } from "../../components/logo/Logo";
 import heroone from "../../assets/heroone.jpg";
+import LoginGoogle from "../../components/google/LoginGoogle";
 
 import { FormControl, FormLabel, FormHelperText, Box, Button, Container, Heading, Input, Stack, Text, useBreakpointValue } from "@chakra-ui/react";
 
@@ -140,6 +141,7 @@ export const Signup = (props) => {
                     </Button>
                   </FormControl>
                 </form>
+                <LoginGoogle setErrorMessage={setErrorMessage} setLoggedInUser={setLoggedInUser} />
               </Stack>
               <Link to="/login">
                 <Stack spacing="0.5" align="center">

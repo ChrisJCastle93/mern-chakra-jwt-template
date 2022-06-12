@@ -7,24 +7,15 @@ const saltRounds = 10;
 
 const User = require("../models/User.model");
 
-const isLoggedOut = require("../middleware/isLoggedOut");
-const isLoggedIn = require("../middleware/isLoggedIn");
-
-const jwt = require("jsonwebtoken");
 const isAuth = require("../middleware/auth.js");
 
-// put id in payload
-function generateJwtToken(id) {
-  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "30d" });
-}
-
-// const passport = require("passport");
+const generateJwtToken = require("../utils/generateJwtToken");
 
 router.get("/loggedin", (req, res) => {
   res.json(req.user);
 });
 
-router.post("/signup", isLoggedOut, (req, res) => {
+router.post("/signup", (req, res) => {
   const { username, email, password } = req.body;
 
   if (!username) {
@@ -37,9 +28,9 @@ router.post("/signup", isLoggedOut, (req, res) => {
     });
   }
 
-  User.findOne({ username }).then((found) => {
+  User.findOne({ email }).then((found) => {
     if (found) {
-      return res.status(400).json({ errorMessage: "Username already taken." });
+      return res.status(400).json({ errorMessage: "Email already exists. Sign in with your username and password, or Google." });
     }
 
     return bcrypt
@@ -69,7 +60,7 @@ router.post("/signup", isLoggedOut, (req, res) => {
   });
 });
 
-router.post("/login", isLoggedOut, (req, res, next) => {
+router.post("/login", (req, res, next) => {
   const { username, password } = req.body;
 
   if (!username) {
@@ -109,18 +100,14 @@ router.get("/me", isAuth, async (req, res, next) => {
 // GOOGLE REACT ROUTES
 
 router.post("/googleAuth", (req, res, next) => {
-  console.log("GOOGLE AUTH");
-  const { email, googleId } = req.body;
-  console.log("REQ BODy", req.body);
+  const { email, username } = req.body;
 
   User.findOne({ email })
     .then((user) => {
       if (!user) {
-        console.log("NO USER EXISTS, CREATING ONE");
-        // CREATE AND RETURN USER HERE
         return User.create({
           email,
-          googleId,
+          username,
         })
           .then((user) => {
             res.status(201).json({ _id: user.id, username: user.username, email: user.email, token: generateJwtToken(user._id) });
@@ -129,28 +116,12 @@ router.post("/googleAuth", (req, res, next) => {
             next(err);
           });
       } else {
-        console.log("USER FOUND!");
-        console.log(user)
-        // ADD googleId to USER
-        if (!user.googleId) {
-          User.findByIdAndUpdate(user._id, { googleId: googleId }, { new: true });
-        }
-        // SEND USER BACK WITH A TOKEN
         res.status(201).json({ _id: user.id, username: user.username, email: user.email, token: generateJwtToken(user._id) });
       }
     })
-
     .catch((err) => {
       next(err);
     });
 });
-
-// // GOOGLE SSO ROUTES - PASSPORT
-
-// router.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
-
-// router.get("/auth/google/callback", passport.authenticate("google", { failureRedirect: "/auth/google/failure" }), function (_req, res) {
-//   res.redirect("/");
-// });
 
 module.exports = router;

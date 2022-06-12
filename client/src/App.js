@@ -16,12 +16,9 @@ function App() {
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  console.log(loggedInUser)
-
   const navigate = useNavigate();
 
   const logoutHandler = async () => {
-    console.log('CLICKED LOGOUT HANDLER')
     await authService.logout();
     setLoggedInUser(null);
     navigate("/");

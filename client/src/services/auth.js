@@ -44,11 +44,11 @@ class auth {
       });
   };
 
-  googleAuth = (email, googleId) => {
+  googleAuth = (email, username) => {
     return axios
       .post(
         `${this.baseUrl}/api/auth/googleAuth`,
-        { email, googleId },
+        { email, username },
         {
           withCredentials: true,
         }
@@ -60,7 +60,7 @@ class auth {
         return response.data;
       })
       .catch((error) => {
-        return error.response.data;
+        console.log(error.response.data);
       });
   };
 

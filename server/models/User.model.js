@@ -4,8 +4,7 @@ const userSchema = new Schema(
   {
     username: String,
     password: String,
-    email: String,
-    googleId: String,
+    email: String
   },
   {
     timestamps: true,
